@@ -1,9 +1,7 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+const title = 'Página de inicio'
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <h1>{{ title }}</h1>
 </template>
