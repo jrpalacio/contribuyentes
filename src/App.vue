@@ -14,5 +14,6 @@ import { RouterView } from 'vue-router'
 .main {
   grid-area: main;
   padding: 20px;
+  overflow-y: auto;
 }
 </style>
