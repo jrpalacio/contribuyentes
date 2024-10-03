@@ -1,7 +1,11 @@
 <script setup>
+import VToaster from './VToaster.vue'
 import IconCopy from './icons/IconCopy.vue'
 import IconUser from './icons/IconUser.vue'
+import { useToasterStore } from '@/stores/toaster'
 
+const toaster = useToasterStore()
+const { showToast } = toaster
 defineProps({
   users: {
     type: Array,
@@ -9,11 +13,11 @@ defineProps({
   }
 })
 
-const copyToClipboard = (text) => {
+const copyToClipboard = ({ text, msg }) => {
   navigator.clipboard
     .writeText(text)
     .then(() => {
-      alert('RFC copiado al portapapeles')
+      showToast({ msg, toastType: 'success' })
     })
     .catch((err) => {
       console.error('Error al copiar el RFC: ', err)
@@ -29,10 +33,16 @@ const copyToClipboard = (text) => {
         <div class="user--info">
           {{ user.name }}
           <div class="buttons">
-            <button class="button--clipboard" @click="copyToClipboard(user.rfc)">
+            <button
+              class="button--clipboard"
+              @click="copyToClipboard({ text: user.rfc, msg: 'RFC copiado' })"
+            >
               <IconCopy /> RFC
             </button>
-            <button class="button--clipboard" @click="copyToClipboard(user.pass)">
+            <button
+              class="button--clipboard"
+              @click="copyToClipboard({ text: user.pass, msg: 'Contraseña copiada' })"
+            >
               <IconCopy /> Contraseña
             </button>
           </div>
@@ -40,6 +50,7 @@ const copyToClipboard = (text) => {
       </li>
     </ul>
   </div>
+  <VToaster />
 </template>
 
 <style scoped>
