@@ -27,11 +27,24 @@ const copyToClipboard = ({ text, msg }) => {
 
 <template>
   <div>
+    <div class="list--header">
+      <h2>Contribuyentes</h2>
+      <slot name="button"></slot>
+    </div>
+    <hr />
     <ul class="users">
       <li class="user" v-for="user in users" :key="user.id">
         <IconUser />
         <div class="user--info">
-          {{ user.name }}
+          <div>
+            <h3>
+              {{ user.name }}
+            </h3>
+            <p class="info--type">Persona fisica</p>
+            <p>
+              Régimen de Actividades Empresariales con ingresos a través de Plataformas Tecnológicas
+            </p>
+          </div>
           <div class="buttons">
             <button
               class="button--clipboard"
@@ -54,13 +67,27 @@ const copyToClipboard = ({ text, msg }) => {
 </template>
 
 <style scoped>
+h3 {
+  font-weight: 500;
+  font-size: 1.1rem;
+  letter-spacing: 0.013rem;
+}
+
+hr {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  height: 1px;
+  background-color: #2d323a;
+  width: 100%;
+}
+
 .users {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  max-width: 560px;
+  gap: 0.7rem;
   width: 100%;
-  margin: 2rem auto 3rem;
+  margin: 2rem 0;
 }
 .user {
   display: flex;
@@ -69,15 +96,18 @@ const copyToClipboard = ({ text, msg }) => {
 
   background-color: #171f26;
   padding: 0.8rem 1rem;
-  border-radius: 1em;
+  border-radius: 1.1rem;
 
   &:hover {
     background-color: #087fc40e;
   }
 }
 .user--info {
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   gap: 0.5rem;
 }
 .buttons {
@@ -89,11 +119,39 @@ const copyToClipboard = ({ text, msg }) => {
   flex-direction: row;
   align-content: center;
   gap: 0.5rem;
-  background-color: #087ec4;
+  background-color: transparent;
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1rem;
   border-radius: 0.5em;
   cursor: pointer;
+
+  &:hover {
+    background-color: #087ec4;
+  }
+}
+.list--header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.info--type {
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.019rem;
+  font-style: italic;
+  color: #6c757d;
+}
+
+@media (width <= 768px) {
+  .user--info {
+    flex-direction: column;
+    align-items: start;
+  }
+  .buttons {
+    margin-top: 1rem;
+  }
 }
 </style>
