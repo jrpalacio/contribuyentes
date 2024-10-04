@@ -3,6 +3,7 @@ import VToaster from './VToaster.vue'
 import IconCopy from './icons/IconCopy.vue'
 import IconUser from './icons/IconUser.vue'
 import { useToasterStore } from '@/stores/toaster'
+import { REGIMEN_FISCAL_DESCRIPTION } from '@/constants/RegimenesFiscales'
 
 const toaster = useToasterStore()
 const { showToast } = toaster
@@ -31,6 +32,7 @@ const copyToClipboard = ({ text, msg }) => {
       <h2>Contribuyentes</h2>
       <slot name="button"></slot>
     </div>
+
     <hr />
     <ul class="users">
       <li class="user" v-for="user in users" :key="user.id">
@@ -41,8 +43,8 @@ const copyToClipboard = ({ text, msg }) => {
               {{ user.name }}
             </h3>
             <p class="info--type">Persona fisica</p>
-            <p>
-              Régimen de Actividades Empresariales con ingresos a través de Plataformas Tecnológicas
+            <p class="info--tax">
+              {{ REGIMEN_FISCAL_DESCRIPTION[user.taxSystem] }}
             </p>
           </div>
           <div class="buttons">
@@ -143,6 +145,13 @@ hr {
   letter-spacing: 0.019rem;
   font-style: italic;
   color: #6c757d;
+}
+
+.info--tax {
+  font-weight: 500;
+  font-size: 0.8rem;
+  letter-spacing: 0.019rem;
+  color: #2d8ad7;
 }
 
 @media (width <= 768px) {

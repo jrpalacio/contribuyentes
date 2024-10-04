@@ -15,7 +15,7 @@ const users = [
     rfc: 'DOEJ124567534',
     pass: '123',
     type: 1,
-    taxSystem: '603'
+    taxSystem: '607'
   },
   {
     id: 3,
@@ -23,12 +23,11 @@ const users = [
     rfc: 'SMITJ1234567123',
     pass: '123',
     type: 1,
-    taxSystem: '603'
+    taxSystem: '621'
   }
 ]
 </script>
 
 <template>
-  <h1>Contribuyentes</h1>
   <UserList :users />
 </template>
