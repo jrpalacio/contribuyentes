@@ -1,9 +1,10 @@
 <script setup>
 import VToaster from './VToaster.vue'
 import IconCopy from './icons/IconCopy.vue'
-import IconUser from './icons/IconUser.vue'
+import IconChevronr from '@/icons/IconChevronr.vue'
 import { useToasterStore } from '@/stores/toaster'
 import { REGIMEN_FISCAL_DESCRIPTION } from '@/constants/RegimenesFiscales'
+import router from '@/router'
 
 const toaster = useToasterStore()
 const { showToast } = toaster
@@ -24,6 +25,10 @@ const copyToClipboard = ({ text, msg }) => {
       console.error('Error al copiar el RFC: ', err)
     })
 }
+
+function goToPage(id) {
+  router.push({ name: 'user-detail', params: { id } })
+}
 </script>
 
 <template>
@@ -36,15 +41,14 @@ const copyToClipboard = ({ text, msg }) => {
     <hr />
     <ul class="users">
       <li class="user" v-for="user in users" :key="user.id">
-        <IconUser />
         <div class="user--info">
           <div>
             <h3>
               {{ user.name }}
             </h3>
-            <p class="info--type">Persona fisica</p>
-            <p class="info--tax">
-              {{ REGIMEN_FISCAL_DESCRIPTION[user.taxSystem] }}
+            <p class="info--type">
+              <strong>Persona fisica</strong> |
+              <span>{{ REGIMEN_FISCAL_DESCRIPTION[user.taxSystem] }}</span>
             </p>
           </div>
           <div class="buttons">
@@ -62,6 +66,9 @@ const copyToClipboard = ({ text, msg }) => {
             </button>
           </div>
         </div>
+        <button class="btn--go" @click="goToPage(user.id)">
+          <IconChevronr />
+        </button>
       </li>
     </ul>
   </div>
@@ -141,17 +148,31 @@ hr {
 
 .info--type {
   font-weight: 500;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   letter-spacing: 0.019rem;
-  font-style: italic;
-  color: #6c757d;
+
+  & strong {
+    font-style: italic;
+  }
+  & span {
+    color: #2d8ad7;
+  }
 }
 
-.info--tax {
-  font-weight: 500;
-  font-size: 0.8rem;
-  letter-spacing: 0.019rem;
-  color: #2d8ad7;
+.btn--go {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 0.5em;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #087ec4;
+  }
 }
 
 @media (width <= 768px) {
@@ -160,7 +181,7 @@ hr {
     align-items: start;
   }
   .buttons {
-    margin-top: 1rem;
+    margin-top: 0.4rem;
   }
 }
 </style>
