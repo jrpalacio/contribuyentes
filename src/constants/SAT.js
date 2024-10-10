@@ -19,3 +19,8 @@ export const REGIMEN_FISCAL_DESCRIPTION = {
   625: 'Régimen de las Actividades Empresariales con ingresos a través de Plataformas Tecnológicas',
   626: 'Régimen Simplificado de Confianza'
 }
+
+export const TIPO_CONTRIBUYENTE = {
+  1: 'Persona Física',
+  2: 'Persona Moral'
+}

@@ -3,7 +3,7 @@ import VToaster from './VToaster.vue'
 import IconCopy from './icons/IconCopy.vue'
 import IconChevronr from '@/icons/IconChevronr.vue'
 import { useToasterStore } from '@/stores/toaster'
-import { REGIMEN_FISCAL_DESCRIPTION } from '@/constants/RegimenesFiscales'
+import { REGIMEN_FISCAL_DESCRIPTION, TIPO_CONTRIBUYENTE } from '@/constants/SAT'
 import router from '@/router'
 
 const toaster = useToasterStore()
@@ -37,7 +37,6 @@ function goToPage(id) {
       <h2>Contribuyentes</h2>
       <slot name="button"></slot>
     </div>
-
     <hr />
     <ul class="users">
       <li class="user" v-for="user in users" :key="user.id">
@@ -47,7 +46,8 @@ function goToPage(id) {
               {{ user.name }}
             </h3>
             <p class="info--type">
-              <strong>Persona fisica</strong> |
+              <strong>{{ TIPO_CONTRIBUYENTE[user.type] }}</strong>
+              |
               <span>{{ REGIMEN_FISCAL_DESCRIPTION[user.taxSystem] }}</span>
             </p>
           </div>
