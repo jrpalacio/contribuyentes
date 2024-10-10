@@ -1,13 +1,14 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRoute /* , useRouter */ } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import VTabs from '@/components/VTabs.vue'
 import IconEdit from '@/icons/IconEdit.vue'
+import IconArrowLeft from '@/icons/IconArrowLeft.vue'
 import { supabase } from '@/supabase'
 import { REGIMEN_FISCAL_DESCRIPTION, TIPO_CONTRIBUYENTE } from '@/constants/SAT'
 
 const route = useRoute()
-/* const router = useRouter() */
+const router = useRouter()
 const activeInfoFiscal = ref(true)
 const activeInfoPersonal = ref(true)
 const activeInfoContacto = ref(true)
@@ -44,9 +45,9 @@ onMounted(async () => {
   }
 })
 
-/* function back() {
+function back() {
   router.go(-1)
-} */
+}
 
 function handleActiveInfoFiscal() {
   activeInfoFiscal.value = !activeInfoFiscal.value
@@ -62,6 +63,10 @@ function handleActiveInfoContacto() {
 </script>
 
 <template>
+  <nav class="navegator">
+    <IconArrowLeft @click="back" />
+    <h3>Detalles del contribuyente</h3>
+  </nav>
   <article class="referenciados">
     <header>
       <h2>Referenciados</h2>
@@ -202,5 +207,11 @@ function handleActiveInfoContacto() {
 
 .referenciados {
   margin-bottom: 2rem;
+}
+.navegator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
 }
 </style>
