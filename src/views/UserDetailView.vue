@@ -1,20 +1,52 @@
 <script setup>
-import { ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { useRoute /* , useRouter */ } from 'vue-router'
 import VTabs from '@/components/VTabs.vue'
 import IconEdit from '@/icons/IconEdit.vue'
+import { supabase } from '@/supabase'
+import { REGIMEN_FISCAL_DESCRIPTION, TIPO_CONTRIBUYENTE } from '@/constants/SAT'
 
 const route = useRoute()
-const router = useRouter()
+/* const router = useRouter() */
 const activeInfoFiscal = ref(true)
 const activeInfoPersonal = ref(true)
 const activeInfoContacto = ref(true)
 
-const item = route.params.id
+const userDetail = ref({})
 
-function back() {
+const idParam = route.params.id
+
+onMounted(async () => {
+  try {
+    const { data: contribuyente } = await supabase
+      .from('contribuyentes')
+      .select('*')
+      .eq('id', idParam)
+
+    const { data: regimenes } = await supabase
+      .from('regimen_por_contribuyente')
+      .select('id_regimen')
+      .eq('id_contribuyente', idParam)
+
+    userDetail.value = {
+      rfc: contribuyente[0].rfc,
+      pass: contribuyente[0].clave,
+      type: contribuyente[0].tipo,
+      taxSystem: regimenes.map((regimen) => regimen.id_regimen),
+      name: contribuyente[0].nombre,
+      fatherLastName: contribuyente[0].apellido_paterno,
+      motherLastName: contribuyente[0].apellido_materno,
+      tel: contribuyente[0].telefono,
+      email: contribuyente[0].correo
+    }
+  } catch (error) {
+    console.error('Error al obtener el usuario: ', error)
+  }
+})
+
+/* function back() {
   router.go(-1)
-}
+} */
 
 function handleActiveInfoFiscal() {
   activeInfoFiscal.value = !activeInfoFiscal.value
@@ -26,18 +58,6 @@ function handleActiveInfoPersonal() {
 
 function handleActiveInfoContacto() {
   activeInfoContacto.value = !activeInfoContacto.value
-}
-const user = {
-  id: 1,
-  name: 'José',
-  fatherLastName: 'Reyes',
-  motherLastName: 'Palacio',
-  tel: '7223563625',
-  email: 'jrpalacio.dev@gmail.com',
-  rfc: 'REPJ891214QE8',
-  pass: '@jRP180914',
-  type: 1,
-  taxSystem: ['603', '603']
 }
 </script>
 
@@ -59,20 +79,30 @@ const user = {
         </header>
         <label>
           RFC
-          <input type="text" :value="user.rfc" :disabled="activeInfoFiscal" />
+          <input type="text" v-model="userDetail.rfc" :disabled="activeInfoFiscal" />
         </label>
         <label>
           Contraseña
-          <input type="password" :value="user.pass" :disabled="activeInfoFiscal" />
+          <input type="password" v-model="userDetail.pass" :disabled="activeInfoFiscal" />
         </label>
         <label>
           Tipo de persona
-          <input type="text" :value="user.type" :disabled="activeInfoFiscal" />
+          <input
+            type="text"
+            v-model="TIPO_CONTRIBUYENTE[userDetail.type]"
+            :disabled="activeInfoFiscal"
+          />
         </label>
 
         <label>
           Régimen fiscal
-          <input type="text" :value="user.taxSystem" :disabled="activeInfoFiscal" />
+          <template v-for="tax in userDetail.taxSystem" :key="tax">
+            <input
+              type="text"
+              :value="REGIMEN_FISCAL_DESCRIPTION[tax]"
+              :disabled="activeInfoFiscal"
+            />
+          </template>
         </label>
       </div>
     </template>
@@ -86,15 +116,15 @@ const user = {
         </header>
         <label>
           Nombre
-          <input type="text" :value="user.name" :disabled="activeInfoPersonal" />
+          <input type="text" v-model="userDetail.name" :disabled="activeInfoPersonal" />
         </label>
         <label>
           Apellido paterno
-          <input type="text" :value="user.fatherLastName" :disabled="activeInfoPersonal" />
+          <input type="text" v-model="userDetail.fatherLastName" :disabled="activeInfoPersonal" />
         </label>
         <label>
           Apellido materno
-          <input type="text" :value="user.motherLastName" :disabled="activeInfoPersonal" />
+          <input type="text" v-model="userDetail.motherLastName" :disabled="activeInfoPersonal" />
         </label>
       </div>
     </template>
@@ -108,11 +138,11 @@ const user = {
         </header>
         <label>
           Teléfono
-          <input type="text" :value="user.tel" :disabled="activeInfoContacto" />
+          <input type="text" v-model="userDetail.tel" :disabled="activeInfoContacto" />
         </label>
         <label>
           Correo
-          <input type="text" :value="user.email" :disabled="activeInfoContacto" />
+          <input type="text" v-model="userDetail.email" :disabled="activeInfoContacto" />
         </label>
       </div>
     </template>
