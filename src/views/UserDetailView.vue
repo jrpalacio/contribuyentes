@@ -1,8 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import VTabs from '@/components/VTabs.vue'
-import IconEdit from '@/icons/IconEdit.vue'
+
 import IconArrowLeft from '@/icons/IconArrowLeft.vue'
 import { supabase } from '@/supabase'
 import { REGIMEN_FISCAL_DESCRIPTION, TIPO_CONTRIBUYENTE } from '@/constants/SAT'
@@ -11,14 +10,15 @@ import IconEmail from '@/icons/IconEmail.vue'
 import IconPhone from '@/icons/IconPhone.vue'
 import IconPassword from '@/icons/IconPassword.vue'
 import IconInfo from '@/icons/IconInfo.vue'
-import IconTrash from '@/icons/IconTrash.vue'
 import IconCopy from '@/icons/IconCopy.vue'
+import FormEdit from '@/components/FormEdit.vue'
+import { useTaxplayerStore } from '@/stores/taxpayer'
 
 const route = useRoute()
 const router = useRouter()
-const activeInfoFiscal = ref(true)
-const activeInfoPersonal = ref(true)
-const activeInfoContacto = ref(true)
+
+const contrib = useTaxplayerStore()
+const { setShowFormEditContribuyente } = contrib
 
 const contribuyente = ref({})
 
@@ -55,20 +55,14 @@ onMounted(async () => {
 const fullName = computed(() => {
   return `${contribuyente.value.nombre} ${contribuyente.value.apellidoPaterno} ${contribuyente.value.apellidoMaterno}`
 })
+
 function back() {
   router.go(-1)
 }
 
-function handleActiveInfoFiscal() {
-  activeInfoFiscal.value = !activeInfoFiscal.value
-}
-
-function handleActiveInfoPersonal() {
-  activeInfoPersonal.value = !activeInfoPersonal.value
-}
-
-function handleActiveInfoContacto() {
-  activeInfoContacto.value = !activeInfoContacto.value
+function handleBtnShowFormEdit() {
+  console.log('Entre al manejador')
+  setShowFormEditContribuyente(true)
 }
 </script>
 
@@ -141,6 +135,9 @@ function handleActiveInfoContacto() {
       </div>
     </section>
   </article>
+
+  <button @click="handleBtnShowFormEdit">abrir</button>
+  <FormEdit :user="contribuyente" />
 </template>
 
 <style scoped>
