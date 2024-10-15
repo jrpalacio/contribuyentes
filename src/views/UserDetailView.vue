@@ -13,6 +13,7 @@ import IconInfo from '@/icons/IconInfo.vue'
 import IconCopy from '@/icons/IconCopy.vue'
 import FormEdit from '@/components/FormEdit.vue'
 import { useTaxplayerStore } from '@/stores/taxpayer'
+import IconEdit from '@/icons/IconEdit.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -61,15 +62,17 @@ function back() {
 }
 
 function handleBtnShowFormEdit() {
-  console.log('Entre al manejador')
   setShowFormEditContribuyente(true)
 }
 </script>
 
 <template>
   <nav class="navegator">
-    <IconArrowLeft @click="back" />
-    <h3>Detalles del contribuyente</h3>
+    <button type="button" class="btn--back" @click="back">
+      <IconArrowLeft />
+    </button>
+    <h3>Detalles</h3>
+    <button type="button" class="btn--edit" @click="handleBtnShowFormEdit"><IconEdit /></button>
   </nav>
   <article class="content--profile">
     <header class="profile--header">
@@ -85,7 +88,7 @@ function handleBtnShowFormEdit() {
       <ul>
         <template v-for="tax in contribuyente.regimenFiscal" :key="tax">
           <li class="content--rf">
-            <p>✧ {{ REGIMEN_FISCAL_DESCRIPTION[tax] }}</p>
+            <p>{{ REGIMEN_FISCAL_DESCRIPTION[tax] }}</p>
           </li>
         </template>
       </ul>
@@ -136,11 +139,55 @@ function handleBtnShowFormEdit() {
     </section>
   </article>
 
-  <button @click="handleBtnShowFormEdit">abrir</button>
   <FormEdit :user="contribuyente" />
 </template>
 
 <style scoped>
+.btn--back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  width: 48px;
+  background-color: transparent;
+  border: none;
+  border-radius: 0.9rem;
+  cursor: pointer;
+  color: white;
+}
+.btn--edit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  width: 48px;
+  border: none;
+  border-radius: 0.9rem;
+  cursor: pointer;
+  color: #2f4858;
+  background-color: #eee683;
+}
+.navegator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.content--profile {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile--header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .button--clipboard {
   display: flex;
   flex-direction: row;
@@ -157,93 +204,17 @@ function handleBtnShowFormEdit() {
     background-color: #087ec4;
   }
 }
-.nav--tabs {
-  padding: 1rem;
-}
-.tabs {
-  display: flex;
-  gap: 1rem;
-  list-style: none;
-}
-.tab {
-  padding: 0.5rem 1rem;
-  background-color: #2d323a;
-  color: #fff;
-  border-radius: 0.5rem;
-  cursor: pointer;
-}
 
-.container--groupform {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.groupform {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-
-  label {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-  }
-
-  input {
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    border: 1px solid #ccc;
-  }
-}
 .content--rf {
   display: flex;
   justify-content: space-between;
-}
-.groupfrom--header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  button {
-    background-color: #1da7ff;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 13px;
-    height: 2.6rem;
-    width: 2.6rem;
-    color: #fff;
-  }
-}
-
-.referenciados {
-  margin-bottom: 2rem;
-}
-.navegator {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 0;
-}
-
-.content--profile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.profile--header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .content--data {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding: 1.6rem 0;
+  padding: 0;
 }
 
 .content--cards {
