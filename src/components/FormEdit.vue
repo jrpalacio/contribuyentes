@@ -69,6 +69,7 @@ const cancelEdit = () => {
   background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: flex-end;
+  z-index: 5;
 }
 
 .form-edit {
