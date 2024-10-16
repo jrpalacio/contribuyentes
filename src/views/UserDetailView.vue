@@ -139,7 +139,7 @@ function handleBtnShowFormEdit() {
     </section>
   </article>
 
-  <FormEdit :user="contribuyente" />
+  <FormEdit :contribuyente />
 </template>
 
 <style scoped>
