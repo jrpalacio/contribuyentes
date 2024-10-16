@@ -5,27 +5,27 @@ import { useTaxplayerStore } from '@/stores/taxpayer'
 import { storeToRefs } from 'pinia'
 
 const props = defineProps({
-  userDetailView: {
+  contribuyente: {
     type: Object,
     required: true
   }
 })
 
-const contribuyente = useTaxplayerStore()
-const { showFormEditContribuyente } = storeToRefs(contribuyente)
-const { setShowFormEditContribuyente } = contribuyente
+const form = useTaxplayerStore()
+const { showFormEditContribuyente } = storeToRefs(form)
+const { setShowFormEditContribuyente } = form
 
 const emit = defineEmits(['update-user'])
 
-const { userDetailView } = toRefs(props)
-const user = ref({ ...userDetailView.value })
+const { contribuyente } = toRefs(props)
+const contribuyenteEdit = ref({ ...contribuyente.value })
 
-watch(userDetailView, (newVal) => {
-  user.value = { ...newVal }
+watch(contribuyente, (newVal) => {
+  contribuyenteEdit.value = { ...newVal }
 })
 
 const submitForm = () => {
-  emit('update-user', user.value)
+  emit('update-user', contribuyenteEdit.value)
 }
 
 const cancelEdit = () => {
@@ -37,22 +37,53 @@ const cancelEdit = () => {
   <transition name="slide-fade" mode="out-in">
     <div class="overlay" v-if="showFormEditContribuyente">
       <div class="form-edit">
-        <h2>Edit User Information</h2>
+        <h2>Editar datos del contribuyente</h2>
+
         <form @submit.prevent="submitForm">
           <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" v-model="user.name" id="name" required />
+            <label>
+              Nombre:
+              <input type="text" v-model="contribuyenteEdit.nombre" required />
+            </label>
           </div>
           <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" v-model="user.email" id="email" required />
+            <label>
+              Apellido Paterno:
+              <input type="text" v-model="contribuyenteEdit.apellidoPaterno" required />
+            </label>
           </div>
           <div class="form-group">
-            <label for="phone">Phone:</label>
-            <input type="tel" v-model="user.phone" id="phone" required />
+            <label>
+              Apellido Materno:
+              <input type="text" v-model="contribuyenteEdit.apellidoMaterno" required />
+            </label>
           </div>
-          <button type="submit">Save</button>
-          <button type="button" @click="cancelEdit">Cancel</button>
+          <div class="form-group">
+            <label>
+              RFC:
+              <input type="text" v-model="contribuyenteEdit.rfc" required />
+            </label>
+          </div>
+          <div class="form-group">
+            <label>
+              RFC:
+              <input type="password" v-model="contribuyenteEdit.clave" required />
+            </label>
+          </div>
+          <div class="form-group">
+            <label>
+              Correo Electrónico:
+              <input type="email" v-model="contribuyenteEdit.correo" required />
+            </label>
+          </div>
+          <div class="form-group">
+            <label>
+              Teléfono:
+              <input type="tel" v-model="contribuyenteEdit.telefono" required />
+            </label>
+          </div>
+          <button type="submit">Guardar</button>
+          <button type="button" @click="cancelEdit">Cancelar</button>
         </form>
       </div>
     </div>
