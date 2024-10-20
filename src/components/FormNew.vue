@@ -1,9 +1,11 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import { defineEmits } from 'vue'
 import { useTaxplayerStore } from '@/stores/taxpayer'
 import { storeToRefs } from 'pinia'
 import { supabase } from '@/supabase'
+
+import API_REGIMENES_FISCALES from '@/api/RegimenesFiscales'
+import router from '@/router'
 
 const contribuyente = ref({
   nombre: '',
@@ -15,21 +17,24 @@ const contribuyente = ref({
   tipo: 1
 })
 
+const regimenesParaMorales = ref([])
+const regimenesParaFisicas = ref([])
+
 const form = useTaxplayerStore()
 const { showFormNewContribuyente } = storeToRefs(form)
 const { setShowFormNewContribuyente } = form
 
-const emit = defineEmits(['update-user'])
 const uidUser = ref('')
 
 onMounted(async () => {
   const { data: response, error } = await supabase.auth.getUser()
   if (error) throw error
   uidUser.value = response.user.id
+
+  regimenesParaMorales.value = API_REGIMENES_FISCALES.filter((regimen) => regimen.esMoral)
+  regimenesParaFisicas.value = API_REGIMENES_FISCALES.filter((regimen) => regimen.esFisica)
 })
 async function submitForm() {
-  emit('update-user', contribuyente.value)
-
   const { data, error } = await supabase
     .from('contribuyentes')
     .insert([
@@ -51,6 +56,8 @@ async function submitForm() {
   if (error) throw error
 
   console.log(data)
+  setShowFormNewContribuyente(false)
+  router.push('/')
 }
 
 const cancelEdit = () => {
@@ -120,15 +127,39 @@ const cancelEdit = () => {
               </select>
             </label>
           </section>
-          <section>
-            <label>
-              Régimen Fiscal:
-              <select v-model="contribuyente.regimenes" multiple>
-                <option value="612">General de Ley Personas Morales</option>
-                <option value="605">Personas Morales con Fines no Lucrativos</option>
-              </select>
-            </label>
-          </section>
+          <template v-if="contribuyente.tipo === 1">
+            <section>
+              <label>
+                Régimen Fiscal para Personas Físicas:
+                <select v-model="contribuyente.regimenes" multiple>
+                  <option
+                    v-for="regimen in regimenesParaMorales"
+                    :key="regimen.id"
+                    :value="regimen.id"
+                  >
+                    {{ regimen.descripcion }}
+                  </option>
+                </select>
+              </label>
+            </section>
+          </template>
+          <template v-else>
+            <section>
+              <label>
+                Régimen Fiscal para Personas Morales:
+                <select v-model="contribuyente.regimenes" multiple>
+                  <option
+                    v-for="regimen in regimenesParaFisicas"
+                    :key="regimen.id"
+                    :value="regimen.id"
+                  >
+                    {{ regimen.descripcion }}
+                  </option>
+                </select>
+              </label>
+            </section>
+          </template>
+
           <button type="submit">Guardar</button>
           <button type="button" @click="cancelEdit">Cancelar</button>
         </form>
