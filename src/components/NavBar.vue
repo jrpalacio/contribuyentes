@@ -11,7 +11,7 @@ import IconSettings from '@/icons/IconSettings.vue'
         <RouterLink to="/"><IconUsers /><span>Contribuyentes</span></RouterLink>
       </li>
       <li class="link">
-        <RouterLink to="/about"><IconSettings /><span>Configuración</span></RouterLink>
+        <RouterLink to="/about"><IconSettings /><span>Acerca de</span></RouterLink>
       </li>
     </ul>
   </nav>
@@ -30,7 +30,7 @@ nav {
 }
 
 nav a.router-link-exact-active {
-  color: var(--color-text);
+  color: #fff;
 }
 
 nav a.router-link-exact-active:hover {
