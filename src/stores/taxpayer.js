@@ -4,6 +4,14 @@ import { ref } from 'vue'
 export const useTaxplayerStore = defineStore('taxpayer', () => {
   const contribuyenteEdited = ref({})
   const showFormEditContribuyente = ref(false)
+  const showFormNewContribuyente = ref(false)
+
+  function setShowFormNewContribuyente(currenValue) {
+    showFormNewContribuyente.value = currenValue
+  }
+  function getShowFormNewContribuyente() {
+    return showFormNewContribuyente.value
+  }
 
   function setShowFormEditContribuyente(currenValue) {
     showFormEditContribuyente.value = currenValue
@@ -21,10 +29,13 @@ export const useTaxplayerStore = defineStore('taxpayer', () => {
   }
 
   return {
+    showFormNewContribuyente,
     showFormEditContribuyente,
     setContribuyenteEdited,
     getContribuyenteEdited,
     setShowFormEditContribuyente,
-    getShowFormEditContribuyente
+    getShowFormEditContribuyente,
+    setShowFormNewContribuyente,
+    getShowFormNewContribuyente
   }
 })
