@@ -48,7 +48,7 @@ function goToPage(id) {
             <p class="info--type">
               <strong>{{ TIPO_CONTRIBUYENTE[user.type] }}</strong>
               |
-              <span>{{ REGIMEN_FISCAL_DESCRIPTION[user.taxSystem] }}</span>
+              <span>{{ REGIMEN_FISCAL_DESCRIPTION[user.taxSystem[0]] }}</span>
             </p>
           </div>
           <div class="buttons">
