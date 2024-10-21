@@ -38,39 +38,44 @@ function goToPage(id) {
       <slot name="button"></slot>
     </div>
     <hr />
-    <ul class="users">
-      <li class="user" v-for="user in users" :key="user.id">
-        <div class="user--info">
-          <div>
-            <h3>
-              {{ user.name }}
-            </h3>
-            <p class="info--type">
-              <strong>{{ TIPO_CONTRIBUYENTE[user.type] }}</strong>
-              |
-              <span>{{ REGIMEN_FISCAL_DESCRIPTION[user.taxSystem[0]] }}</span>
-            </p>
+    <template v-if="users.length === 0">
+      <h3>No hay contribuyentes registrados</h3>
+    </template>
+    <template v-else>
+      <ul class="users">
+        <li class="user" v-for="user in users" :key="user.id">
+          <div class="user--info">
+            <div>
+              <h3>
+                {{ user.name }}
+              </h3>
+              <p class="info--type">
+                <strong>{{ TIPO_CONTRIBUYENTE[user.type] }}</strong>
+                |
+                <span>{{ REGIMEN_FISCAL_DESCRIPTION[user.taxSystem[0]] }}</span>
+              </p>
+            </div>
+            <div class="buttons">
+              <button
+                class="button--clipboard"
+                @click="copyToClipboard({ text: user.rfc, msg: 'RFC copiado' })"
+              >
+                <IconCopy /> RFC
+              </button>
+              <button
+                class="button--clipboard"
+                @click="copyToClipboard({ text: user.pass, msg: 'Contraseña copiada' })"
+              >
+                <IconCopy /> Contraseña
+              </button>
+            </div>
           </div>
-          <div class="buttons">
-            <button
-              class="button--clipboard"
-              @click="copyToClipboard({ text: user.rfc, msg: 'RFC copiado' })"
-            >
-              <IconCopy /> RFC
-            </button>
-            <button
-              class="button--clipboard"
-              @click="copyToClipboard({ text: user.pass, msg: 'Contraseña copiada' })"
-            >
-              <IconCopy /> Contraseña
-            </button>
-          </div>
-        </div>
-        <button class="btn--go" @click="goToPage(user.id)">
-          <IconChevronr />
-        </button>
-      </li>
-    </ul>
+          <button class="btn--go" @click="goToPage(user.id)">
+            <IconChevronr />
+          </button>
+        </li>
+      </ul>
+    </template>
   </div>
   <VToaster />
 </template>
