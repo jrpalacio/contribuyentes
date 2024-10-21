@@ -3,6 +3,12 @@ import router from '@/router'
 import { useUserStore } from '@/stores/user'
 import { supabase } from '@/supabase'
 import { onMounted, ref } from 'vue'
+import { useLoginStore } from '@/stores/login'
+import { storeToRefs } from 'pinia'
+
+const login = useLoginStore()
+const { isAuthenticated } = storeToRefs(login)
+const { handleAuthenticated } = login
 
 const user = useUserStore()
 const { setResAuth } = user
@@ -11,9 +17,8 @@ const email = ref('')
 const password = ref('')
 
 onMounted(async () => {
-  const { data, error } = await supabase.auth.getUser()
-  if (error) throw error
-  if (data.user.aud === 'authenticated') router.push({ name: 'users' })
+  await handleAuthenticated()
+  if (isAuthenticated) router.push({ name: 'users' })
 })
 
 async function handleSubmit() {
