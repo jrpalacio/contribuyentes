@@ -4,49 +4,54 @@ import UserDetailView from '@/views/UserDetailView.vue'
 import LoginView from '@/views/LoginView.vue'
 import { supabase } from '@/supabase'
 
+const routes = [
+  {
+    path: '/',
+    redirect: '/users'
+  },
+  {
+    path: '/users',
+    name: 'users',
+    component: UsersView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView
+  },
+  {
+    path: '/users/:id',
+    name: 'user-detail',
+    component: UserDetailView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: () => import('../views/AboutView.vue')
+  }
+]
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      redirect: '/users'
-    },
-    {
-      path: '/users',
-      name: 'users',
-      component: UsersView,
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: LoginView
-    },
-    {
-      path: '/users/:id',
-      name: 'user-detail',
-      component: UserDetailView,
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/about',
-      name: 'about',
-
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    }
-  ]
+  routes
 })
 
-router.beforeEach(async (to, from, next) => {
-  const { data: response, error } = await supabase.auth.getUser()
-  let isAuthenticated = null
-  if (error) isAuthenticated = false
-  else isAuthenticated = !!response.user.id
+async function isAuthenticated() {
+  try {
+    const { data, error } = await supabase.auth.getUser()
+    if (error) return false
+    return !!data.user.id
+  } catch (error) {
+    return false
+  }
+}
 
-  if (to.matched.some((record) => record.meta.requiresAuth) && !isAuthenticated)
+router.beforeEach(async (to, from, next) => {
+  const userAuthenticated = await isAuthenticated()
+
+  if (to.matched.some((record) => record.meta.requiresAuth) && !userAuthenticated)
     next({ name: 'login' })
   else next()
 })
