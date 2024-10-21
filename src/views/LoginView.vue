@@ -2,13 +2,19 @@
 import router from '@/router'
 import { useUserStore } from '@/stores/user'
 import { supabase } from '@/supabase'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const user = useUserStore()
 const { setResAuth } = user
 
 const email = ref('')
 const password = ref('')
+
+onMounted(async () => {
+  const { data, error } = await supabase.auth.getUser()
+  if (error) throw error
+  if (data.user.aud === 'authenticated') router.push({ name: 'users' })
+})
 
 async function handleSubmit() {
   const { data, error } = await supabase.auth.signInWithPassword({
