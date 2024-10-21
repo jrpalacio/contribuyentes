@@ -5,6 +5,7 @@ import IconLogin from '@/icons/IconLogin.vue'
 import router from '@/router'
 import { storeToRefs } from 'pinia'
 import { useLoginStore } from '@/stores/login'
+import IconLogout from '@/icons/IconLogout.vue'
 
 const login = useLoginStore()
 const { handleAuthenticated } = login
@@ -25,10 +26,10 @@ async function logout() {
   <nav class="nav--session">
     <h3>Contadora Bernal</h3>
     <template v-if="isAuthenticated">
-      <button @click="logout">Cerrar sesión</button>
+      <button class="btn--logout" @click="logout"><span>Cerrar sesión</span><IconLogout /></button>
     </template>
     <template v-else>
-      <RouterLink to="/login"><IconLogin /><span>Inicio de sesión</span></RouterLink>
+      <RouterLink to="/login"><span>Inicio de sesión</span> <IconLogin /></RouterLink>
     </template>
   </nav>
 </template>
@@ -39,11 +40,21 @@ a {
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
+  align-items: center;
 }
 .nav--session {
   display: flex;
   justify-content: space-between;
   padding: 0.75rem 1rem;
   background-color: #242424;
+}
+.btn--logout {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
 }
 </style>
