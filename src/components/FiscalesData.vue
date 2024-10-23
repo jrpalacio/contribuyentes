@@ -5,6 +5,7 @@ import IconChevronUp from '@/icons/IconChevronUp.vue'
 import { LISTA_TIPO_DE_CONTRIBUYENTE } from '@/constants/SAT'
 import regimenesFiscales from '@/api/regimenesFiscales.json'
 import { useContribuyenteStore } from '@/stores/contribuyente'
+import IconTrash from '@/icons/IconTrash.vue'
 
 const MESSAGE = {
   SELECCIONAR_REGIMEN: 'Seleccione un régimen fiscal',
@@ -23,6 +24,8 @@ const showTiposList = ref(false)
 const listaDeTiposDeContribuyentes = ref(LISTA_TIPO_DE_CONTRIBUYENTE)
 const listaDeRegimenesFiscales = ref([])
 
+const regimenesSeleccionados = ref([])
+
 watch(
   tipoSelected,
   (value) => {
@@ -37,6 +40,7 @@ watch(
   },
   { immediate: true }
 )
+
 function toggleList(listType) {
   if (listType === 'tipos') {
     showTiposList.value = !showTiposList.value
@@ -46,16 +50,27 @@ function toggleList(listType) {
     showTiposList.value = false
   }
 }
-function selectRegimen(regimen) {
-  regimenSelected.value = regimen.descripcion
+
+function selectRegimen(regimen, index) {
+  regimenesSeleccionados.value[index] = regimen.descripcion
   showRegimenesList.value = false
 }
+
 function selectTipo(tipo) {
   tipoSelected.value = tipo.description
   setTipo(tipo.value)
   showTiposList.value = false
 }
+
+function agregarRegimen() {
+  regimenesSeleccionados.value.push(MESSAGE.SELECCIONAR_REGIMEN)
+}
+
+function eliminarRegimen(index) {
+  regimenesSeleccionados.value.splice(index, 1)
+}
 </script>
+
 <template>
   <header>
     <h3>Información fiscal</h3>
@@ -85,10 +100,14 @@ function selectTipo(tipo) {
   </article>
   <label> Régimen fiscal</label>
 
-  <article class="content--regimenes m-top">
+  <article
+    class="content--regimenes m-top"
+    v-for="(regimen, index) in regimenesSeleccionados"
+    :key="index"
+  >
     <div class="regimenes-list">
       <label @click="toggleList('regimenes')" class="regimenes-label">
-        {{ regimenSelected }}
+        {{ regimen }}
         <template v-if="showRegimenesList">
           <IconChevronUp />
         </template>
@@ -101,17 +120,20 @@ function selectTipo(tipo) {
           <span>REGÍMENES FISCALES</span>
         </li>
         <li v-for="regimen in listaDeRegimenesFiscales" :key="regimen.id">
-          <button type="button" @click="selectRegimen(regimen)">
+          <button type="button" @click="selectRegimen(regimen, index)">
             {{ regimen.descripcion }}
           </button>
         </li>
       </ul>
     </div>
+    <button @click="eliminarRegimen(index)">
+      <IconTrash />
+    </button>
   </article>
 
-  <article class="content__regimenes--push m-top">
+  <button type="button" class="content__regimenes--push m-top" @click="agregarRegimen">
     <p>Agregar regimen</p>
-  </article>
+  </button>
 </template>
 
 <style scoped>
@@ -188,17 +210,5 @@ function selectTipo(tipo) {
 
 .dropdown li button:hover {
   background-color: #ffffff16;
-}
-
-.Dropdown-options::-webkit-scrollbar {
-  width: 7px;
-}
-.Dropdown-options::-webkit-scrollbar-thumb {
-  background-color: red;
-  border: 2px solid transparent;
-  border-radius: 6px;
-}
-.Dropdown-options::-webkit-scrollbar-track {
-  background: 0 0;
 }
 </style>
