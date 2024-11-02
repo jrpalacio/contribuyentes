@@ -5,6 +5,8 @@ import regimenesFiscales from '@/api/regimenesFiscales.json'
 import { useContribuyenteStore } from '@/stores/contribuyente'
 import IconTrash from '@/icons/IconTrash.vue'
 import VSelect from './VSelect.vue'
+import VSelectObjet from './VSelectObjet.vue'
+import { storeToRefs } from 'pinia'
 
 const MESSAGE = {
   SELECCIONAR_REGIMEN: 'Seleccione un régimen fiscal',
@@ -13,10 +15,10 @@ const MESSAGE = {
   PERSONA_MORAL: 'Persona Moral'
 }
 const contribuyente = useContribuyenteStore()
-const { setTipo } = contribuyente
+const { regimenes } = storeToRefs(contribuyente)
+const { setTipo, setRegimenes, regimenTextToNumberString } = contribuyente
 
 const tipoSelected = ref(MESSAGE.SELECCIONAR_TIPO)
-const regimenSelected = ref([])
 
 const listaDeTiposDeContribuyentes = ref(LISTA_TIPO_DE_CONTRIBUYENTE)
 const listaDeRegimenesFiscales = ref([])
@@ -26,7 +28,10 @@ const arrayOfListaDeRegimenesFiscales = ref([])
 watch(
   tipoSelected,
   (currentValue) => {
-    const resetArrayOfLista = () => (arrayOfListaDeRegimenesFiscales.value = [])
+    const resetArrayOfLista = () => {
+      arrayOfListaDeRegimenesFiscales.value = []
+      setRegimenes([])
+    }
     const actualizarRegimenesFiscales = (tipo) => {
       const filtros = {
         [MESSAGE.PERSONA_FISICA]: (regimen) => regimen.esFisica,
@@ -40,14 +45,14 @@ watch(
   { immediate: true }
 )
 
-function selectRegimen(selectedValue) {
-  // selectedValue = 'General de Ley Personas Morales'
-  // validar que el valor no exista en el array
-  if (regimenSelected.value.includes(selectedValue)) {
-    return
+function selectRegimen({ value, index }) {
+  const idRegimen = regimenTextToNumberString({ text: value })
+  if (!idRegimen) return
+  if (regimenes.value.length === 0) {
+    regimenes.value.push(idRegimen)
+  } else {
+    regimenes.value[index] = idRegimen
   }
-  regimenSelected.value.push(selectedValue)
-  console.log(regimenSelected.value)
 }
 
 function handleTypeSelected(tipo) {
@@ -62,6 +67,7 @@ function agregarRegimen() {
 
 function eliminarRegimen(index) {
   arrayOfListaDeRegimenesFiscales.value.splice(index, 1)
+  regimenes.value.splice(index, 1)
 }
 </script>
 
@@ -78,7 +84,8 @@ function eliminarRegimen(index) {
 
   <div class="m-top" v-for="(regimen, index) in arrayOfListaDeRegimenesFiscales" :key="index">
     <div class="content__vselect--list">
-      <VSelect
+      <VSelectObjet
+        :index="index"
         option-label="REGÍMENES FISCALES"
         v-model:item-list="listaDeRegimenesFiscales"
         @update:selected-value="selectRegimen"
