@@ -28,7 +28,17 @@ onMounted(() => {
 <style scoped>
 .main {
   grid-area: main;
-  padding: 20px;
-  overflow-y: auto;
+  padding: 1rem 1.6rem;
+}
+
+@media (width <= 1024px) {
+  .main {
+    height: calc(100vh - 108.08px);
+  }
+}
+@media (width >= 1024px) {
+  .main {
+    height: calc(100vh - 52.08px);
+  }
 }
 </style>

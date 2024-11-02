@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import UsersView from '../views/UsersView.vue'
 import UserDetailView from '@/views/UserDetailView.vue'
 import LoginView from '@/views/LoginView.vue'
+import UserCreateView from '@/views/UserCreateView.vue'
 import { supabase } from '@/supabase'
 
 const routes = [
@@ -30,6 +31,12 @@ const routes = [
     path: '/about',
     name: 'about',
     component: () => import('../views/AboutView.vue')
+  },
+  {
+    path: '/create-user',
+    name: 'create-user',
+    component: UserCreateView,
+    meta: { requiresAuth: true }
   }
 ]
 

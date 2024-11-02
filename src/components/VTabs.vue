@@ -1,14 +1,14 @@
 <template>
   <article class="tabs">
     <nav class="tab-headers">
-      <button
+      <a
         v-for="(tab, index) in tabs"
         :key="index"
         :class="{ active: selectedTab === index }"
         @click="selectTab(index)"
       >
         {{ tab.name }}
-      </button>
+      </a>
     </nav>
     <section class="tab-content">
       <slot :name="tabs[selectedTab].slot"></slot>
@@ -39,33 +39,31 @@ export default {
 
 <style scoped>
 .tabs {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-areas: 'headers content';
+  gap: 2rem;
+  margin: 1rem 0;
+}
+
+.tab-headers {
+  grid-area: headers;
   display: flex;
   flex-direction: column;
 }
 
-.tab-headers {
-  display: flex;
-  overflow-x: auto;
-  white-space: nowrap;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth; /* Add smooth scrolling */
-}
-
-.tab-headers button {
+.tab-headers a {
   cursor: pointer;
-  border: 2px solid transparent;
-  background-color: transparent;
-  padding: 0.3rem 0.5rem;
-  scroll-snap-align: start;
   color: #ffffff48;
 }
 
-.tab-headers button.active {
-  border-bottom: 2px solid #ff795a;
+.tab-headers a.active {
   color: #ff795a;
 }
 
 .tab-content {
+  grid-area: content;
   padding: 0.5rem 0;
+  width: 100%;
 }
 </style>

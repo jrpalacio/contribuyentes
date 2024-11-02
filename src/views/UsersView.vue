@@ -5,17 +5,13 @@ import IconUserPlus from '@/icons/IconUserPlus.vue'
 
 import { supabase } from '@/supabase'
 import { onMounted, ref } from 'vue'
-import { useTaxplayerStore } from '@/stores/taxpayer'
-
 import { useLoginStore } from '@/stores/login'
+import router from '@/router'
 
 const login = useLoginStore()
 const { handleAuthenticated } = login
 
 const users = ref([])
-
-const contrib = useTaxplayerStore()
-const { setShowFormNewContribuyente } = contrib
 
 onMounted(async () => {
   try {
@@ -40,7 +36,7 @@ onMounted(async () => {
 })
 
 function handleBtnShowFormNew() {
-  setShowFormNewContribuyente(true)
+  router.push({ name: 'create-user' })
 }
 </script>
 
