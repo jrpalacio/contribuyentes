@@ -3,9 +3,12 @@ import VToaster from './VToaster.vue'
 import IconCopy from './icons/IconCopy.vue'
 import IconChevronr from '@/icons/IconChevronr.vue'
 import { useToasterStore } from '@/stores/toaster'
-import { REGIMEN_FISCAL_DESCRIPTION, TIPO_CONTRIBUYENTE } from '@/constants/SAT'
+import { TIPO_CONTRIBUYENTE } from '@/constants/SAT'
+import { useContribuyenteStore } from '@/stores/contribuyente'
 import router from '@/router'
 
+const contribuyente = useContribuyenteStore()
+const { regimenNumberStringToText } = contribuyente
 const toaster = useToasterStore()
 const { showToast } = toaster
 defineProps({
@@ -52,7 +55,7 @@ function goToPage(id) {
               <p class="info--type">
                 <strong>{{ TIPO_CONTRIBUYENTE[user.type] }}</strong>
                 |
-                <span>{{ REGIMEN_FISCAL_DESCRIPTION[user.taxSystem[0]] }}</span>
+                <span>{{ regimenNumberStringToText({ numbreString: user.taxSystem[0] }) }}</span>
               </p>
             </div>
             <div class="buttons">
