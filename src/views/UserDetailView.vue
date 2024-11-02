@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 import IconArrowLeft from '@/icons/IconArrowLeft.vue'
 import { supabase } from '@/supabase'
-import { REGIMEN_FISCAL_DESCRIPTION, TIPO_CONTRIBUYENTE } from '@/constants/SAT'
+import { TIPO_CONTRIBUYENTE } from '@/constants/SAT'
 import CardIcon from '@/components/CardIcon.vue'
 import IconEmail from '@/icons/IconEmail.vue'
 import IconPhone from '@/icons/IconPhone.vue'
@@ -14,7 +14,10 @@ import IconCopy from '@/icons/IconCopy.vue'
 import FormEdit from '@/components/FormEdit.vue'
 import { useTaxplayerStore } from '@/stores/taxpayer'
 import IconEdit from '@/icons/IconEdit.vue'
+import { useContribuyenteStore } from '@/stores/contribuyente'
 
+const contribuy = useContribuyenteStore()
+const { regimenNumberStringToText } = contribuy
 const route = useRoute()
 const router = useRouter()
 
@@ -88,7 +91,7 @@ function handleBtnShowFormEdit() {
       <ul>
         <template v-for="tax in contribuyente.regimenFiscal" :key="tax">
           <li class="content--rf">
-            <p>{{ REGIMEN_FISCAL_DESCRIPTION[tax] }}</p>
+            <p>{{ regimenNumberStringToText({ numbreString: tax }) }}</p>
           </li>
         </template>
       </ul>
