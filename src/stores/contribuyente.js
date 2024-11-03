@@ -92,6 +92,10 @@ export const useContribuyenteStore = defineStore('contribuyente', () => {
     return regimenesFiscales.find((regimen) => regimen.id === numbreString).descripcion || null
   }
 
+  function findRegimenById({ id }) {
+    return regimenesFiscales.find((regimen) => regimen.id === id) || null
+  }
+
   return {
     nombre,
     apellidoPaterno,
@@ -121,6 +125,7 @@ export const useContribuyenteStore = defineStore('contribuyente', () => {
     getRegimenes,
     setRegimenes,
     regimenTextToNumberString,
-    regimenNumberStringToText
+    regimenNumberStringToText,
+    findRegimenById
   }
 })
