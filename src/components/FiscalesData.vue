@@ -1,19 +1,13 @@
 <script setup>
 import { ref, watch } from 'vue'
-import { LISTA_TIPO_DE_CONTRIBUYENTE } from '@/constants/SAT'
+import { LISTA_TIPO_DE_CONTRIBUYENTE, MESSAGE } from '@/constants/SAT'
 import regimenesFiscales from '@/api/regimenesFiscales.json'
-import { useContribuyenteStore } from '@/stores/contribuyente'
 import IconTrash from '@/icons/IconTrash.vue'
 import VSelect from './VSelect.vue'
 import VSelectObjet from './VSelectObjet.vue'
+import { useContribuyenteStore } from '@/stores/contribuyente'
 import { storeToRefs } from 'pinia'
 
-const MESSAGE = {
-  SELECCIONAR_REGIMEN: 'Seleccione un régimen fiscal',
-  SELECCIONAR_TIPO: 'Seleccione un tipo de contribuyente',
-  PERSONA_FISICA: 'Persona Física',
-  PERSONA_MORAL: 'Persona Moral'
-}
 const contribuyente = useContribuyenteStore()
 const { regimenes } = storeToRefs(contribuyente)
 const { setTipo, setRegimenes, regimenTextToNumberString } = contribuyente
@@ -48,8 +42,12 @@ watch(
 function selectRegimen({ value, index }) {
   const idRegimen = regimenTextToNumberString({ text: value })
   if (!idRegimen) return
-  if (regimenes.value.length === 0) {
-    regimenes.value.push(idRegimen)
+  if (!regimenes.value[index]) {
+    if (regimenes.value.length === 0) {
+      regimenes.value.push(idRegimen)
+    } else {
+      regimenes.value.push(idRegimen)
+    }
   } else {
     regimenes.value[index] = idRegimen
   }
@@ -61,47 +59,65 @@ function handleTypeSelected(tipo) {
   setTipo(type.id)
 }
 
-function agregarRegimen() {
+function agregarListadoDeRegimenes() {
   arrayOfListaDeRegimenesFiscales.value.push(listaDeRegimenesFiscales.value)
 }
 
 function eliminarRegimen(index) {
   arrayOfListaDeRegimenesFiscales.value.splice(index, 1)
-  regimenes.value.splice(index, 1)
+  if (regimenes.value.length > 0) {
+    regimenes.value.splice(index, 1)
+  }
 }
 </script>
 
 <template>
-  <header>
-    <h3>Información fiscal</h3>
-  </header>
+  <h3>Información fiscal</h3>
+  <label>Persona</label>
   <VSelect
+    class="m--label"
     option-label="TIPO DE CONTRIBUYENTES"
     v-model:item-list="listaDeTiposDeContribuyentes"
     @update:selected-value="handleTypeSelected"
   />
-  <label> Lista</label>
 
-  <div class="m-top" v-for="(regimen, index) in arrayOfListaDeRegimenesFiscales" :key="index">
-    <div class="content__vselect--list">
-      <VSelectObjet
-        :index="index"
-        option-label="REGÍMENES FISCALES"
-        v-model:item-list="listaDeRegimenesFiscales"
-        @update:selected-value="selectRegimen"
-      />
-      <button @click="eliminarRegimen(index)">
-        <IconTrash />
-      </button>
-    </div>
+  <div class="header--fiscales">
+    <label>Regímenes fiscales</label>
+    <small>Agrega un campo y selecciona el regimen fiscal correspondiente</small>
+  </div>
+  <div class="content__list m--label">
+    <template v-for="(regimen, index) in arrayOfListaDeRegimenesFiscales" :key="index">
+      <div class="content__vselect--list">
+        <VSelectObjet
+          :index="index"
+          option-label="REGÍMENES FISCALES"
+          :item-list="regimen"
+          @update:selected-value="selectRegimen"
+        />
+
+        <button @click="eliminarRegimen(index)">
+          <IconTrash />
+        </button>
+      </div>
+    </template>
   </div>
 
-  <button type="button" class="content__regimenes--push m-top" @click="agregarRegimen">
+  <button type="button" class="content__regimenes--push" @click="agregarListadoDeRegimenes">
     <p>Agregar regimen</p>
   </button>
 </template>
 
 <style scoped>
+.header--fiscales {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.6rem;
+}
+.content__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 .content__vselect--list {
   display: flex;
   align-items: center;
@@ -112,8 +128,8 @@ function eliminarRegimen(index) {
   border: none;
   cursor: pointer;
 }
-.m-top {
-  margin-top: 0.5rem;
+.m--label {
+  margin-top: 0.2rem;
 }
 
 .content__regimenes--push {
@@ -129,5 +145,7 @@ function eliminarRegimen(index) {
   height: 56px;
   padding: 6px 12px 6px 16px;
   width: 100%;
+  cursor: pointer;
+  margin-top: 0.5rem;
 }
 </style>
