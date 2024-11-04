@@ -13,12 +13,11 @@ const props = defineProps({
   index: {
     type: Number,
     required: false
+  },
+  itemList: {
+    type: Array,
+    required: true
   }
-})
-
-const itemList = defineModel('itemList', {
-  type: Array,
-  required: true
 })
 
 // Definición de los eventos emitidos
