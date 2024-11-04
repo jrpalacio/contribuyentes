@@ -3,7 +3,6 @@ import { onMounted, ref } from 'vue'
 import { supabase } from '@/supabase'
 
 import router from '@/router'
-import VTabs from '@/components/VTabs.vue'
 import FiscalesData from '@/components/FiscalesData.vue'
 import { useContribuyenteStore } from '@/stores/contribuyente'
 import { storeToRefs } from 'pinia'
@@ -19,18 +18,8 @@ onMounted(async () => {
   if (error) throw error
   uidUser.value = response.user.id
 })
+
 async function submitForm() {
-  console.log(nombre.value)
-  console.log(apellidoPaterno.value)
-  console.log(apellidoMaterno.value)
-  console.log(telefono.value)
-  console.log(correo.value)
-  console.log(rfc.value)
-  console.log(tipo.value)
-  console.log(clave.value)
-
-  console.log(regimenes.value)
-
   const { data, error } = await supabase
     .from('contribuyentes')
     .insert([
@@ -61,63 +50,66 @@ const cancelEdit = () => {}
 
 <template>
   <article class="form-edit">
-    <header>
+    <header class="form-edit__title">
       <h2>Registro de contribuyente</h2>
       <p>Ingresa los datos del nuevo contribuyente</p>
     </header>
     <form @submit.prevent="submitForm">
-      <VTabs>
-        <template #tab1>
-          <FiscalesData />
-          <section>
-            <header class="header">
-              <h3>Datos de acceso</h3>
-            </header>
-            <label>
-              RFC:
-              <input type="text" v-model="rfc" required />
-            </label>
-            <label>
-              Contraseña:
-              <input type="password" v-model="clave" required />
-            </label>
-          </section>
-        </template>
-        <template #tab2>
-          <section>
-            <header>
-              <h3>Datos personales</h3>
-            </header>
-            <label>
-              Nombre:
-              <input type="text" v-model="nombre" required />
-            </label>
-            <label>
-              Apellido Paterno:
-              <input type="text" v-model="apellidoPaterno" required />
-            </label>
-            <label>
-              Apellido Materno:
-              <input type="text" v-model="apellidoMaterno" required />
-            </label>
-          </section>
-        </template>
-        <template #tab3>
-          <section>
-            <header>
-              <h3>Contacto</h3>
-            </header>
-            <label>
-              Correo Electrónico:
-              <input type="email" v-model="correo" required />
-            </label>
-            <label>
-              Teléfono:
-              <input type="tel" v-model="telefono" required />
-            </label>
-          </section>
-        </template>
-      </VTabs>
+      <FiscalesData />
+      <section>
+        <header>
+          <h3>Información de acceso</h3>
+          <p>
+            La Información que debes introducir en la que te va a permitir ingresar al portal del
+            SAT
+          </p>
+        </header>
+        <div class="content--column">
+          <label>
+            RFC:
+            <input type="text" v-model="rfc" required />
+          </label>
+          <label>
+            Contraseña:
+            <input type="password" v-model="clave" required />
+          </label>
+        </div>
+      </section>
+      <section>
+        <header>
+          <h3>Información personal</h3>
+        </header>
+        <label>
+          Nombre:
+          <input type="text" v-model="nombre" required />
+        </label>
+        <div class="content--column">
+          <label>
+            Apellido paterno:
+            <input type="text" v-model="apellidoPaterno" required />
+          </label>
+          <label>
+            Apellido materno:
+            <input type="text" v-model="apellidoMaterno" required />
+          </label>
+        </div>
+      </section>
+      <section>
+        <header>
+          <h3>Información de contacto</h3>
+          <p>Estos datos permitiran manterte en contacto con el contribuyente</p>
+        </header>
+        <div class="content--column">
+          <label>
+            Teléfono:
+            <input type="tel" v-model="telefono" required />
+          </label>
+          <label>
+            Correo electrónico:
+            <input type="email" v-model="correo" required />
+          </label>
+        </div>
+      </section>
 
       <button type="submit">Guardar</button>
       <button type="button" @click="cancelEdit">Cancelar</button>
@@ -126,16 +118,39 @@ const cancelEdit = () => {}
 </template>
 
 <style scoped>
-.header {
-  margin-top: 0.8rem;
+.form-edit {
+  padding: 0;
 }
-label {
-  display: block;
-  margin-bottom: 5px;
+.form-edit__title {
+  margin: 1.16rem 0;
 }
 
-input,
-select {
+form {
+  background-color: #1f2937;
+  border-radius: 0.8rem;
+  padding: 1.2rem 0.5rem;
+}
+
+section {
+  margin-top: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+
+  & header {
+    margin-top: 0.2rem;
+  }
+}
+
+label {
+  display: block;
+  color: #d1d5db;
+  & input {
+    margin-top: 0.2rem;
+  }
+}
+
+input {
   background-color: rgba(0, 0, 0, 0.3);
   border: 1px solid #404650;
   border-radius: 8px;
@@ -178,11 +193,22 @@ button[type='button'] {
 button[type='button']:hover {
   background-color: #5a6268;
 }
-
-.form-edit {
-  background-color: #171f26;
-  border-radius: 1.1rem;
-  padding: 1.5rem;
-  margin: 1rem 0.4rem;
+.content--column {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.6rem;
+}
+@media (width >= 1024px) {
+  form {
+    padding: 2rem 1.6rem;
+  }
+  .form-edit {
+    padding: 1rem;
+  }
+  .content--column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
 }
 </style>
