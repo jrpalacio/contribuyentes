@@ -7,7 +7,7 @@ export const useContribuyenteStore = defineStore('contribuyente', () => {
   const apellidoPaterno = ref('')
   const apellidoMaterno = ref('')
   const rfc = ref('')
-  const curp = ref('')
+  const clave = ref('')
   const telefono = ref('')
   const correo = ref('')
   const tipo = ref(1)
@@ -45,12 +45,12 @@ export const useContribuyenteStore = defineStore('contribuyente', () => {
     rfc.value = value
   }
 
-  function getCurp() {
-    return curp.value
+  function getClave() {
+    return clave.value
   }
 
-  function setCurp(value) {
-    curp.value = value
+  function setClave(value) {
+    clave.value = value
   }
 
   function getTelefono() {
@@ -101,7 +101,7 @@ export const useContribuyenteStore = defineStore('contribuyente', () => {
     apellidoPaterno,
     apellidoMaterno,
     rfc,
-    curp,
+    clave,
     telefono,
     correo,
     tipo,
@@ -114,8 +114,8 @@ export const useContribuyenteStore = defineStore('contribuyente', () => {
     setApellidoMaterno,
     getRfc,
     setRfc,
-    getCurp,
-    setCurp,
+    getClave,
+    setClave,
     getTelefono,
     setTelefono,
     getCorreo,
