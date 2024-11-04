@@ -2,23 +2,15 @@
 import { onMounted, ref } from 'vue'
 import { supabase } from '@/supabase'
 
-import API_REGIMENES_FISCALES from '@/api/RegimenesFiscales'
 import router from '@/router'
 import VTabs from '@/components/VTabs.vue'
 import FiscalesData from '@/components/FiscalesData.vue'
+import { useContribuyenteStore } from '@/stores/contribuyente'
+import { storeToRefs } from 'pinia'
 
-const contribuyente = ref({
-  nombre: '',
-  apellidoPaterno: '',
-  apellidoMaterno: '',
-  clave: '',
-  telefono: '',
-  correo: '',
-  tipo: 1
-})
-
-const regimenesParaMorales = ref([])
-const regimenesParaFisicas = ref([])
+const contribuyente = useContribuyenteStore()
+const { nombre, apellidoPaterno, apellidoMaterno, rfc, clave, telefono, correo, tipo, regimenes } =
+  storeToRefs(contribuyente)
 
 const uidUser = ref('')
 
@@ -26,30 +18,40 @@ onMounted(async () => {
   const { data: response, error } = await supabase.auth.getUser()
   if (error) throw error
   uidUser.value = response.user.id
-
-  regimenesParaMorales.value = API_REGIMENES_FISCALES.filter((regimen) => regimen.esMoral)
-  regimenesParaFisicas.value = API_REGIMENES_FISCALES.filter((regimen) => regimen.esFisica)
 })
 async function submitForm() {
+  console.log(nombre.value)
+  console.log(apellidoPaterno.value)
+  console.log(apellidoMaterno.value)
+  console.log(telefono.value)
+  console.log(correo.value)
+  console.log(rfc.value)
+  console.log(tipo.value)
+  console.log(clave.value)
+
+  console.log(regimenes.value)
+
   const { data, error } = await supabase
     .from('contribuyentes')
     .insert([
       {
-        nombre: contribuyente.value.nombre,
-        apellido_paterno: contribuyente.value.apellidoPaterno,
-        apellido_materno: contribuyente.value.apellidoMaterno,
-        telefono: contribuyente.value.telefono,
-        correo: contribuyente.value.correo,
-        rfc: contribuyente.value.rfc,
-        tipo: contribuyente.value.tipo,
-        clave: contribuyente.value.clave,
+        nombre: nombre.value,
+        apellido_paterno: apellidoPaterno.value,
+        apellido_materno: apellidoMaterno.value,
+        telefono: telefono.value,
+        correo: correo.value,
+        rfc: rfc.value,
+        tipo: tipo.value,
+        clave: clave.value,
         user_id: uidUser.value,
-        regimenes: contribuyente.value.regimenes
+        regimenes: regimenes.value
       }
     ])
     .select()
 
   if (error) throw error
+
+  console.log(data)
 
   router.push('/')
 }
@@ -68,16 +70,16 @@ const cancelEdit = () => {}
         <template #tab1>
           <FiscalesData />
           <section>
-            <header>
+            <header class="header">
               <h3>Datos de acceso</h3>
             </header>
             <label>
               RFC:
-              <input type="text" v-model="contribuyente.rfc" required />
+              <input type="text" v-model="rfc" required />
             </label>
             <label>
               Contraseña:
-              <input type="password" v-model="contribuyente.clave" required />
+              <input type="password" v-model="clave" required />
             </label>
           </section>
         </template>
@@ -88,15 +90,15 @@ const cancelEdit = () => {}
             </header>
             <label>
               Nombre:
-              <input type="text" v-model="contribuyente.nombre" required />
+              <input type="text" v-model="nombre" required />
             </label>
             <label>
               Apellido Paterno:
-              <input type="text" v-model="contribuyente.apellidoPaterno" required />
+              <input type="text" v-model="apellidoPaterno" required />
             </label>
             <label>
               Apellido Materno:
-              <input type="text" v-model="contribuyente.apellidoMaterno" required />
+              <input type="text" v-model="apellidoMaterno" required />
             </label>
           </section>
         </template>
@@ -107,11 +109,11 @@ const cancelEdit = () => {}
             </header>
             <label>
               Correo Electrónico:
-              <input type="email" v-model="contribuyente.correo" required />
+              <input type="email" v-model="correo" required />
             </label>
             <label>
               Teléfono:
-              <input type="tel" v-model="contribuyente.telefono" required />
+              <input type="tel" v-model="telefono" required />
             </label>
           </section>
         </template>
@@ -124,6 +126,9 @@ const cancelEdit = () => {}
 </template>
 
 <style scoped>
+.header {
+  margin-top: 0.8rem;
+}
 label {
   display: block;
   margin-bottom: 5px;
