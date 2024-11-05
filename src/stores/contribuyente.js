@@ -13,6 +13,15 @@ export const useContribuyenteStore = defineStore('contribuyente', () => {
   const tipo = ref(1)
   const regimenes = ref([])
   const regimenesFiscales = ref(REGIMENES_LIST)
+  const empresa = ref('')
+
+  function getEmpresa() {
+    return empresa.value
+  }
+
+  function setEmpresa(value) {
+    empresa.value = value
+  }
 
   function getNombre() {
     return nombre.value
@@ -109,6 +118,7 @@ export const useContribuyenteStore = defineStore('contribuyente', () => {
     correo,
     tipo,
     regimenes,
+    empresa,
     getNombre,
     setNombre,
     getApellidoPaterno,
@@ -129,6 +139,8 @@ export const useContribuyenteStore = defineStore('contribuyente', () => {
     setRegimenes,
     regimenTextToNumberString,
     regimenNumberStringToText,
-    findRegimenById
+    findRegimenById,
+    getEmpresa,
+    setEmpresa
   }
 })

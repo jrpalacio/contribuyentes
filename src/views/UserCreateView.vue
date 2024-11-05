@@ -8,8 +8,18 @@ import { useContribuyenteStore } from '@/stores/contribuyente'
 import { storeToRefs } from 'pinia'
 
 const contribuyente = useContribuyenteStore()
-const { nombre, apellidoPaterno, apellidoMaterno, rfc, clave, telefono, correo, tipo, regimenes } =
-  storeToRefs(contribuyente)
+const {
+  nombre,
+  apellidoPaterno,
+  apellidoMaterno,
+  rfc,
+  clave,
+  telefono,
+  correo,
+  tipo,
+  regimenes,
+  empresa
+} = storeToRefs(contribuyente)
 const {
   setNombre,
   setApellidoMaterno,
@@ -44,7 +54,8 @@ async function submitForm() {
         tipo: tipo.value,
         clave: clave.value,
         user_id: uidUser.value,
-        regimenes: regimenes.value
+        regimenes: regimenes.value,
+        empresa: empresa.value
       }
     ])
     .select()
@@ -95,23 +106,34 @@ const cancelEdit = () => {}
         </div>
       </section>
       <section>
-        <header>
-          <h3>Información personal</h3>
-        </header>
-        <label>
-          Nombre:
-          <input type="text" v-model="nombre" required />
-        </label>
-        <div class="content--column">
+        <template v-if="tipo === 1">
+          <header>
+            <h3>Información personal</h3>
+          </header>
           <label>
-            Apellido paterno:
-            <input type="text" v-model="apellidoPaterno" required />
+            Nombre:
+            <input type="text" v-model="nombre" required />
           </label>
+          <div class="content--column">
+            <label>
+              Apellido paterno:
+              <input type="text" v-model="apellidoPaterno" required />
+            </label>
+            <label>
+              Apellido materno:
+              <input type="text" v-model="apellidoMaterno" required />
+            </label>
+          </div>
+        </template>
+        <template v-else>
+          <header>
+            <h3>Información de la empresa</h3>
+          </header>
           <label>
-            Apellido materno:
-            <input type="text" v-model="apellidoMaterno" required />
+            Nombre de la empresa:
+            <input type="text" v-model="empresa" required />
           </label>
-        </div>
+        </template>
       </section>
       <section>
         <header>

@@ -50,7 +50,12 @@ function goToPage(id) {
           <div class="user--info">
             <div>
               <h3>
-                {{ user.name }}
+                <template v-if="user.type === 1">
+                  {{ user.name }}
+                </template>
+                <template v-else>
+                  {{ user.company }}
+                </template>
               </h3>
               <p class="info--type">
                 <strong>{{ TIPO_CONTRIBUYENTE[user.type] }}</strong>

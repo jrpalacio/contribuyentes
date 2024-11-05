@@ -18,7 +18,9 @@ onMounted(async () => {
     await handleAuthenticated()
     const { data: contribuyentes } = await supabase
       .from('contribuyentes')
-      .select('id, nombre, apellido_paterno, apellido_materno, rfc, clave, tipo, regimenes')
+      .select(
+        'id, nombre, apellido_paterno, apellido_materno, rfc, clave, tipo, regimenes, empresa'
+      )
 
     users.value = contribuyentes.map((contribuyente) => {
       return {
@@ -27,7 +29,8 @@ onMounted(async () => {
         rfc: contribuyente.rfc,
         pass: contribuyente.clave,
         type: contribuyente.tipo,
-        taxSystem: contribuyente.regimenes
+        taxSystem: contribuyente.regimenes,
+        company: contribuyente.empresa
       }
     })
   } catch (error) {
