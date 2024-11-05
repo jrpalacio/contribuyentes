@@ -4,7 +4,7 @@ import { useTaxplayerStore } from '@/stores/taxpayer'
 import { storeToRefs } from 'pinia'
 import { supabase } from '@/supabase'
 
-import API_REGIMENES_FISCALES from '@/api/RegimenesFiscales'
+/* import API_REGIMENES_FISCALES from '@/api/RegimenesFiscales' */
 import router from '@/router'
 
 const contribuyente = ref({
