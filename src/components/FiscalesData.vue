@@ -1,13 +1,14 @@
 <script setup>
 import { ref, watch } from 'vue'
-import { LISTA_TIPO_DE_CONTRIBUYENTE, MESSAGE } from '@/constants/SAT'
-import regimenesFiscales from '@/api/regimenesFiscales.json'
+import { LISTA_TIPO_DE_CONTRIBUYENTE, MESSAGE, REGIMENES_LIST } from '@/constants/SAT'
+
 import IconTrash from '@/icons/IconTrash.vue'
 import VSelect from './VSelect.vue'
 import VSelectObjet from './VSelectObjet.vue'
 import { useContribuyenteStore } from '@/stores/contribuyente'
 import { storeToRefs } from 'pinia'
 
+const regimenesFiscales = ref(REGIMENES_LIST)
 const contribuyente = useContribuyenteStore()
 const { regimenes } = storeToRefs(contribuyente)
 const { setTipo, setRegimenes, regimenTextToNumberString } = contribuyente
@@ -31,7 +32,9 @@ watch(
         [MESSAGE.PERSONA_FISICA]: (regimen) => regimen.esFisica,
         [MESSAGE.PERSONA_MORAL]: (regimen) => regimen.esMoral
       }
-      listaDeRegimenesFiscales.value = filtros[tipo] ? regimenesFiscales.filter(filtros[tipo]) : []
+      listaDeRegimenesFiscales.value = filtros[tipo]
+        ? regimenesFiscales.value.filter(filtros[tipo])
+        : []
       resetArrayOfLista()
     }
     actualizarRegimenesFiscales(currentValue)
