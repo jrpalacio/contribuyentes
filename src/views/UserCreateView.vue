@@ -10,6 +10,17 @@ import { storeToRefs } from 'pinia'
 const contribuyente = useContribuyenteStore()
 const { nombre, apellidoPaterno, apellidoMaterno, rfc, clave, telefono, correo, tipo, regimenes } =
   storeToRefs(contribuyente)
+const {
+  setNombre,
+  setApellidoMaterno,
+  setApellidoPaterno,
+  setClave,
+  setCorreo,
+  setRegimenes,
+  setRfc,
+  setTelefono,
+  setTipo
+} = contribuyente
 
 const uidUser = ref('')
 
@@ -39,8 +50,16 @@ async function submitForm() {
     .select()
 
   if (error) throw error
-
   console.log(data)
+  setNombre('')
+  setApellidoMaterno('')
+  setApellidoPaterno('')
+  setClave('')
+  setCorreo('')
+  setRegimenes([])
+  setRfc('')
+  setTelefono('')
+  setTipo(1)
 
   router.push('/')
 }
