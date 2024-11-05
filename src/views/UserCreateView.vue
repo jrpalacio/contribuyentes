@@ -167,7 +167,7 @@ const cancelEdit = () => {}
 }
 
 form {
-  background-color: #1f2937;
+  background-color: #1e2229;
   border-radius: 0.8rem;
   padding: 1.2rem 0.5rem;
 }

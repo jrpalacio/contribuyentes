@@ -46,7 +46,7 @@ a {
   display: flex;
   justify-content: space-between;
   padding: 0.75rem 1rem;
-  background-color: #242424;
+  background-color: #13161c;
 }
 .btn--logout {
   background-color: transparent;

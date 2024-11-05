@@ -55,7 +55,7 @@ nav a:first-of-type {
   align-items: center;
   justify-content: center;
 
-  background-color: hsla(210, 6%, 31%, 0.2);
+  background-color: #13161c;
 
   position: fixed;
   bottom: 0;

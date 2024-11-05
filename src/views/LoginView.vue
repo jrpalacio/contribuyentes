@@ -38,10 +38,6 @@ async function handleSubmit() {
 
 <template>
   <article class="content--login">
-    <header>
-      <p>Ingresar</p>
-    </header>
-
     <form class="form--login" @submit.prevent="handleSubmit">
       <label>
         Correo electrónico
@@ -93,13 +89,18 @@ button {
 }
 
 .content--login {
+  display: flex;
+  width: 100%;
+  height: 70dvh;
   max-width: 400px;
   margin: 0 auto;
+  align-items: center;
 }
 
 .form--login {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  width: 100%;
 }
 </style>

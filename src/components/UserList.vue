@@ -37,7 +37,7 @@ function goToPage(id) {
 <template>
   <div>
     <div class="list--header">
-      <h2>Contribuyentes</h2>
+      <h2>Mis contribuyentes</h2>
       <slot name="button"></slot>
     </div>
     <hr />
@@ -96,7 +96,7 @@ h3 {
 }
 
 hr {
-  margin: 0;
+  margin: 0.5rem 0;
   padding: 0;
   border: 0;
   height: 1px;
@@ -109,14 +109,14 @@ hr {
   flex-direction: column;
   gap: 0.7rem;
   width: 100%;
-  margin: 2rem 0;
+  margin: 0.8rem 0;
 }
 .user {
   display: flex;
   gap: 1.6rem;
   align-items: center;
 
-  background-color: #171f26;
+  background-color: #1e2229;
   padding: 0.8rem 1rem;
   border-radius: 1.1rem;
 
@@ -156,7 +156,7 @@ hr {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 0;
+  padding: 0.2rem 0;
 }
 
 .info--type {
@@ -168,7 +168,7 @@ hr {
     font-style: italic;
   }
   & span {
-    color: #2d8ad7;
+    color: #0094fa;
   }
 }
 
