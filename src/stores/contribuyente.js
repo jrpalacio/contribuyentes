@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import regimenesFiscales from '@/api/regimenesFiscales.json'
+import { REGIMENES_LIST } from '@/constants/SAT'
 
 export const useContribuyenteStore = defineStore('contribuyente', () => {
   const nombre = ref('')
@@ -12,6 +12,7 @@ export const useContribuyenteStore = defineStore('contribuyente', () => {
   const correo = ref('')
   const tipo = ref(1)
   const regimenes = ref([])
+  const regimenesFiscales = ref(REGIMENES_LIST)
 
   function getNombre() {
     return nombre.value
@@ -86,14 +87,16 @@ export const useContribuyenteStore = defineStore('contribuyente', () => {
   }
 
   function regimenTextToNumberString({ text }) {
-    return regimenesFiscales.find((regimen) => regimen.descripcion === text).id || null
+    return regimenesFiscales.value.find((regimen) => regimen.descripcion === text).id || null
   }
   function regimenNumberStringToText({ numbreString }) {
-    return regimenesFiscales.find((regimen) => regimen.id === numbreString).descripcion || null
+    return (
+      regimenesFiscales.value.find((regimen) => regimen.id === numbreString).descripcion || null
+    )
   }
 
   function findRegimenById({ id }) {
-    return regimenesFiscales.find((regimen) => regimen.id === id) || null
+    return regimenesFiscales.value.find((regimen) => regimen.id === id) || null
   }
 
   return {
