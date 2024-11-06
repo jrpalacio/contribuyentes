@@ -25,7 +25,7 @@
 }
 
 body {
-  min-height: 100vh;
+  min-height: 100dvmin;
 
   transition:
     color 0.5s,

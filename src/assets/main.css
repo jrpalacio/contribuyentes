@@ -1,5 +1,6 @@
 @import './base.css';
 
 #app {
+  /* usar el alto de la pantalla del dispositivo */
   height: 100dvh;
 }
