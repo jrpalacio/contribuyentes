@@ -59,6 +59,10 @@ async function handleSubmit() {
 
 <template>
   <article class="content--login">
+    <header>
+      <h1>👩🏽‍💼 Contadora Bernal</h1>
+      <h3>Inicia sesión y captura información de tus contribuyentes.</h3>
+    </header>
     <form class="form--login" @submit.prevent="handleSubmit">
       <label>
         Correo electrónico
@@ -119,11 +123,10 @@ button {
 
 .content--login {
   display: flex;
-  width: 100%;
-  height: 70dvh;
-  max-width: 400px;
-  margin: 0 auto;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  max-width: 416px;
 }
 
 .form--login {
