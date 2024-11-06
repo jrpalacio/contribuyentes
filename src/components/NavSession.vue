@@ -1,7 +1,6 @@
 <script setup>
 import { supabase } from '@/supabase'
 import { onMounted } from 'vue'
-import IconLogin from '@/icons/IconLogin.vue'
 import router from '@/router'
 import { storeToRefs } from 'pinia'
 import { useLoginStore } from '@/stores/login'
@@ -29,7 +28,7 @@ async function logout() {
       <button class="btn--logout" @click="logout"><span>Cerrar sesión</span><IconLogout /></button>
     </template>
     <template v-else>
-      <RouterLink to="/login"><span>Inicio de sesión</span> <IconLogin /></RouterLink>
+      <RouterLink to="/login"><span>Inicio de sesión</span></RouterLink>
     </template>
   </nav>
 </template>

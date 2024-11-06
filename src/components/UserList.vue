@@ -134,6 +134,7 @@ hr {
 }
 .buttons {
   display: flex;
+  flex-direction: row;
   gap: 0.5rem;
 }
 .button--clipboard {
@@ -168,7 +169,7 @@ hr {
     font-style: italic;
   }
   & span {
-    color: #0094fa;
+    color: #00c6bb;
   }
 }
 
@@ -195,6 +196,12 @@ hr {
   }
   .buttons {
     margin-top: 0.4rem;
+  }
+}
+@media (width <= 425px) {
+  .buttons {
+    flex-direction: column;
+    width: 100%;
   }
 }
 </style>

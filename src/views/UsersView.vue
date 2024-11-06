@@ -1,7 +1,6 @@
 <script setup>
 import FormNew from '@/components/FormNew.vue'
 import UserList from '@/components/UserList.vue'
-import IconUserPlus from '@/icons/IconUserPlus.vue'
 
 import { supabase } from '@/supabase'
 import { onMounted, ref } from 'vue'
@@ -46,9 +45,7 @@ function handleBtnShowFormNew() {
 <template>
   <UserList :users>
     <template #button>
-      <button class="btn--add-user" @click="handleBtnShowFormNew">
-        <IconUserPlus />
-      </button>
+      <button class="btn--add-user" @click="handleBtnShowFormNew">Agregar contribuyente</button>
     </template>
   </UserList>
   <FormNew />
@@ -56,19 +53,12 @@ function handleBtnShowFormNew() {
 
 <style scoped>
 .btn--add-user {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 48px;
-  width: 48px;
   border: 0;
-  background-color: coral;
-  color: #fff;
-  border-radius: 0.9rem;
+  background-color: transparent;
   cursor: pointer;
 
-  &:hover {
-    background-color: rgb(253, 93, 34);
-  }
+  font-weight: 500;
+  letter-spacing: 0.019rem;
+  color: #0094fa;
 }
 </style>

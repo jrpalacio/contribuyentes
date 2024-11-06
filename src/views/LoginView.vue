@@ -5,6 +5,8 @@ import { supabase } from '@/supabase'
 import { onMounted, ref } from 'vue'
 import { useLoginStore } from '@/stores/login'
 import { storeToRefs } from 'pinia'
+import { validateLogin } from '@/utils/validations'
+import { ValidationError } from '@/utils/errors'
 
 const login = useLoginStore()
 const { isAuthenticated } = storeToRefs(login)
@@ -15,24 +17,43 @@ const { setResAuth } = user
 
 const email = ref('')
 const password = ref('')
-
+const emailError = ref('')
+const passwordError = ref('')
+const authError = ref('')
 onMounted(async () => {
   await handleAuthenticated()
-  if (isAuthenticated) router.push({ name: 'users' })
+  if (isAuthenticated.value) router.push({ name: 'users' })
 })
 
 async function handleSubmit() {
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: email.value,
-    password: password.value
-  })
+  emailError.value = ''
+  passwordError.value = ''
+  authError.value = ''
+  try {
+    validateLogin({ email: email.value, password: password.value })
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email.value,
+      password: password.value
+    })
 
-  if (error) throw error
+    if (error) throw new ValidationError(error.message)
 
-  setResAuth({ response: data })
-  const token = data.session.access_token
-  localStorage.setItem('supabase.auth.token', token)
-  router.push({ name: 'users' })
+    setResAuth({ response: data })
+    const token = data.session.access_token
+    localStorage.setItem('supabase.auth.token', token)
+    router.push({ name: 'users' })
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      const handleMessageError = {
+        'El correo electrónico es requerido': () => (emailError.value = error.message),
+        'La contraseña es requerida': () => (passwordError.value = error.message),
+        'Invalid login credentials': () => (authError.value = 'Credenciales inválidas')
+      }
+      handleMessageError[error.message]()
+    } else {
+      console.error(error.message)
+    }
+  }
 }
 </script>
 
@@ -41,12 +62,16 @@ async function handleSubmit() {
     <form class="form--login" @submit.prevent="handleSubmit">
       <label>
         Correo electrónico
-        <input type="email" v-model="email" />
+        <input type="email" v-model="email" :class="{ 'input-error': emailError }" />
+        <span class="error">{{ emailError }}</span>
       </label>
+
       <label>
         Contraseña
-        <input type="password" v-model="password" />
+        <input type="password" v-model="password" :class="{ 'input-error': passwordError }" />
+        <span class="error">{{ passwordError }}</span>
       </label>
+      <p class="error">{{ authError }}</p>
       <button type="submit">Iniciar sesión</button>
     </form>
   </article>
@@ -69,6 +94,10 @@ input {
   height: 56px;
   padding: 6px 12px 6px 16px;
   width: 100%;
+}
+
+.input-error {
+  border-color: red;
 }
 
 button {
@@ -102,5 +131,10 @@ button {
   flex-direction: column;
   gap: 1rem;
   width: 100%;
+}
+
+.error {
+  color: red;
+  font-size: 0.875rem;
 }
 </style>
