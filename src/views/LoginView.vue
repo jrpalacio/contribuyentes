@@ -20,10 +20,19 @@ const password = ref('')
 const emailError = ref('')
 const passwordError = ref('')
 const authError = ref('')
+const types = ['password', 'text']
+const msgShowPwd = ['Mostrar contraseña', 'Ocultar contraseña']
+const inputType = ref(types[0])
+const showPwd = ref(msgShowPwd[0])
 onMounted(async () => {
   await handleAuthenticated()
   if (isAuthenticated.value) router.push({ name: 'users' })
 })
+
+function handleInputType() {
+  inputType.value = inputType.value === types[0] ? types[1] : types[0]
+  showPwd.value = showPwd.value === msgShowPwd[0] ? msgShowPwd[1] : msgShowPwd[0]
+}
 
 async function handleSubmit() {
   emailError.value = ''
@@ -58,11 +67,7 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <article class="content--login">
-    <header>
-      <h1>👩🏽‍💼 Contadora Bernal</h1>
-      <h3>Inicia sesión y captura información de tus contribuyentes.</h3>
-    </header>
+  <article class="login">
     <form class="form--login" @submit.prevent="handleSubmit">
       <label>
         Correo electrónico
@@ -71,45 +76,86 @@ async function handleSubmit() {
       </label>
 
       <label>
-        Contraseña
-        <input type="password" v-model="password" :class="{ 'input-error': passwordError }" />
+        <div class="show--pwd">
+          <span>Contraseña</span>
+          <button class="btn--show-pass" type="button" @click="handleInputType">
+            {{ showPwd }}
+          </button>
+        </div>
+        <input :type="inputType" v-model="password" :class="{ 'input-error': passwordError }" />
+
         <span class="error">{{ passwordError }}</span>
       </label>
       <p class="error">{{ authError }}</p>
-      <button type="submit">Iniciar sesión</button>
+      <button class="button" type="submit">Iniciar sesión</button>
+      <p style="text-align: center">
+        <small>Copy right &copy; jrpalcio 2024</small>
+      </p>
     </form>
   </article>
 </template>
 
 <style scoped>
+.login {
+  display: grid;
+  place-items: center;
+  height: 100dvh;
+  padding: 0.64rem;
+  background-size: 100% 100%;
+  background-position:
+    0px 0px,
+    0px 0px,
+    0px 0px,
+    0px 0px,
+    0px 0px;
+  background-image: repeating-linear-gradient(315deg, #00ffff2e 92%, #073aff00 100%),
+    repeating-radial-gradient(75% 75% at 238% 218%, #00ffff12 30%, #073aff14 39%),
+    radial-gradient(99% 99% at 109% 2%, #00c9ffff 0%, #073aff00 100%),
+    radial-gradient(99% 99% at 21% 78%, #7b00ffff 0%, #073aff00 100%),
+    radial-gradient(160% 154% at 711px -303px, #2000ffff 0%, #073affff 100%);
+}
+
+.form--login {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1rem;
+  width: 100%;
+  max-width: 416px;
+}
+.show--pwd {
+  display: flex;
+  justify-content: space-between;
+}
+.btn--show-pass {
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0;
+}
 label {
   display: inline-flex;
   flex-direction: column;
   gap: 0.2rem;
 }
 
-input {
-  background-color: rgba(0, 0, 0, 0.3);
-  border: 1px solid #404650;
-  border-radius: 8px;
-  box-sizing: border-box;
-  color: #fff;
-  font-size: 1rem;
-  height: 56px;
-  padding: 6px 12px 6px 16px;
-  width: 100%;
-}
-
 .input-error {
   border-color: red;
 }
 
-button {
+.error {
+  color: red;
+  font-size: 0.875rem;
+}
+
+.button {
   align-items: center;
-  background-color: #fff;
+  background-color: #242424;
   border: none;
   border-radius: 0.5rem;
-  color: #13161c;
+  color: #ffffff;
   cursor: pointer;
   display: flex;
   font-size: 1rem;
@@ -120,24 +166,15 @@ button {
   line-height: 1.5rem;
   padding: 0.75rem 1rem;
 }
-
-.content--login {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  max-width: 416px;
-}
-
-.form--login {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+input {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid #404650;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #fff;
+  font-size: 1rem;
+  height: 56px;
+  padding: 6px 12px 6px 16px;
   width: 100%;
-}
-
-.error {
-  color: red;
-  font-size: 0.875rem;
 }
 </style>

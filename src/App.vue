@@ -34,33 +34,11 @@ watchEffect(async () => {
     </div>
   </template>
   <template v-else>
-    <div class="container__login">
-      <RouterView />
-    </div>
+    <RouterView />
   </template>
 </template>
 
 <style scoped>
-.container__login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  padding: 0.8rem;
-  background-size: 100% 100%;
-  background-position:
-    0px 0px,
-    0px 0px,
-    0px 0px,
-    0px 0px,
-    0px 0px;
-  background-image: repeating-linear-gradient(315deg, #00ffff2e 92%, #073aff00 100%),
-    repeating-radial-gradient(75% 75% at 238% 218%, #00ffff12 30%, #073aff14 39%),
-    radial-gradient(99% 99% at 109% 2%, #00c9ffff 0%, #073aff00 100%),
-    radial-gradient(99% 99% at 21% 78%, #7b00ffff 0%, #073aff00 100%),
-    radial-gradient(160% 154% at 711px -303px, #2000ffff 0%, #073affff 100%);
-}
-
 .container {
   display: grid;
   grid-template-columns: 1fr;
