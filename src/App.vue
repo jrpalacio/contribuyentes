@@ -47,11 +47,12 @@ watchEffect(async () => {
   grid-template-areas:
     'main'
     'navbar';
+
+  overflow-y: auto;
 }
 .main {
   grid-area: main;
   padding: 0.6rem;
-  overflow-y: auto;
 }
 
 @media (width <= 1024px) {

@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import IconUsers from '@/icons/IconUsers.vue'
-import IconSettings from '@/icons/IconSettings.vue'
+import IconUserPlus from '@/icons/IconUserPlus.vue'
 </script>
 
 <template>
@@ -11,7 +11,9 @@ import IconSettings from '@/icons/IconSettings.vue'
         <RouterLink to="/"><IconUsers /><span>Contribuyentes</span></RouterLink>
       </li>
       <li class="link">
-        <RouterLink to="/about"><IconSettings /><span>Acerca de</span></RouterLink>
+        <RouterLink to="/create-user"
+          ><IconUserPlus /><span>Agregar contribuyente</span></RouterLink
+        >
       </li>
     </ul>
   </nav>
@@ -20,9 +22,11 @@ import IconSettings from '@/icons/IconSettings.vue'
 <style scoped>
 a {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
+  color: rgb(255, 255, 255);
   transition: 0.4s;
   padding: 3px;
+  display: grid;
+  place-items: center;
 }
 
 nav {
@@ -30,7 +34,7 @@ nav {
 }
 
 nav a.router-link-exact-active {
-  color: #fff;
+  color: #05d540a5;
 }
 
 nav a.router-link-exact-active:hover {
@@ -40,7 +44,7 @@ nav a.router-link-exact-active:hover {
 nav a {
   display: inline-block;
   /* padding: 0 1rem; */
-  border-left: 1px solid var(--color-border);
+  border-left: 1px solid blue;
 }
 
 nav a:first-of-type {

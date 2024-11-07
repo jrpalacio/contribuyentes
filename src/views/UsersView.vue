@@ -5,7 +5,7 @@ import UserList from '@/components/UserList.vue'
 import { supabase } from '@/supabase'
 import { onMounted, ref } from 'vue'
 import { useLoginStore } from '@/stores/login'
-import router from '@/router'
+/* import router from '@/router' */
 
 const login = useLoginStore()
 const { handleAuthenticated } = login
@@ -37,16 +37,16 @@ onMounted(async () => {
   }
 })
 
-function handleBtnShowFormNew() {
+/* function handleBtnShowFormNew() {
   router.push({ name: 'create-user' })
-}
+} */
 </script>
 
 <template>
   <UserList :users>
-    <template #button>
+    <!-- <template #button>
       <button class="btn--add-user" @click="handleBtnShowFormNew">Agregar contribuyente</button>
-    </template>
+    </template> -->
   </UserList>
   <FormNew />
 </template>

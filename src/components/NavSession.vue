@@ -4,7 +4,6 @@ import { onMounted } from 'vue'
 import router from '@/router'
 import { storeToRefs } from 'pinia'
 import { useLoginStore } from '@/stores/login'
-import IconLogout from '@/icons/IconLogout.vue'
 
 const login = useLoginStore()
 const { handleAuthenticated } = login
@@ -23,9 +22,12 @@ async function logout() {
 </script>
 <template>
   <nav class="nav--session">
-    <h3>Contadora Bernal</h3>
+    <h3 class="title">CONTADORA BERNAL</h3>
     <template v-if="isAuthenticated">
-      <button class="btn--logout" @click="logout"><span>Cerrar sesión</span><IconLogout /></button>
+      <button class="btn--logout" @click="logout">
+        <span>Cerrar sesión</span>
+        <img class="profile" src="/src/assets/jovanna.webp" alt="jovanna-profile" />
+      </button>
     </template>
     <template v-else>
       <RouterLink to="/login"><span>Inicio de sesión</span></RouterLink>
@@ -34,6 +36,14 @@ async function logout() {
 </template>
 
 <style scoped>
+.title {
+  color: #ff1a7a;
+}
+.profile {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
 a {
   text-decoration: none;
   display: flex;
@@ -44,7 +54,8 @@ a {
 .nav--session {
   display: flex;
   justify-content: space-between;
-  padding: 0.75rem 1rem;
+  align-items: center;
+  padding: 0.75rem 1rem 0.75rem 0.5rem;
   background-color: #13161c;
 }
 .btn--logout {
@@ -53,7 +64,12 @@ a {
   cursor: pointer;
   display: flex;
   flex-direction: row;
-  gap: 0.5rem;
+  gap: 1rem;
   align-items: center;
+
+  span {
+    color: #ff1a7974;
+    font-size: 0.875rem;
+  }
 }
 </style>
