@@ -2,22 +2,21 @@
 import NavBar from './components/NavBar.vue'
 import { RouterView } from 'vue-router'
 import router from './router'
-import { watchEffect } from 'vue'
+import { ref, watchEffect } from 'vue'
 import NavSession from './components/NavSession.vue'
-import { useLoginStore } from './stores/login'
-import { storeToRefs } from 'pinia'
+import { supabase } from './supabase'
 
-const login = useLoginStore()
-const { handleAuthenticated } = login
-const { isAuthenticated } = storeToRefs(login)
-
+const isAuthenticated = ref(false)
 watchEffect(async () => {
-  await handleAuthenticated()
-  if (isAuthenticated) {
-    router.push({ name: 'users' })
-  } else {
-    router.push({ name: 'login' })
-  }
+  supabase.auth.onAuthStateChange(async (event, session) => {
+    console.log('event', event)
+    if (!session) {
+      await router.push({ name: 'login' })
+      isAuthenticated.value = false
+    } else {
+      isAuthenticated.value = true
+    }
+  })
 })
 </script>
 
