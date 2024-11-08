@@ -89,7 +89,7 @@ async function handleSubmit() {
       <p class="error">{{ authError }}</p>
       <button class="button" type="submit">Iniciar sesión</button>
       <p style="text-align: center">
-        <small>jrpalcio &copy; 2024</small>
+        <small>caballero-ux.dev</small>
       </p>
     </form>
   </article>

@@ -14,6 +14,56 @@ export const useContribuyenteStore = defineStore('contribuyente', () => {
   const regimenes = ref([])
   const regimenesFiscales = ref(REGIMENES_LIST)
   const empresa = ref('')
+  const descripcion = ref('')
+  const contribuyentes = ref([])
+
+  function setContribuyentes({ list }) {
+    contribuyentes.value = list.map((persona) => {
+      const PERSONA_FISICA = 1
+      if (persona.tipo === PERSONA_FISICA) {
+        const [name, fatherLastName, motherLastName] = persona.contribuyente.split('_')
+        return {
+          id: persona.id,
+          contribuyente: `${name} ${fatherLastName} ${motherLastName}`,
+          rfc: persona.rfc,
+          clave: persona.clave,
+          tipo: persona.tipo,
+          regimenes: persona.regimenes,
+          persona: {
+            nombre: name,
+            apellidoPaterno: fatherLastName,
+            apellidoMaterno: motherLastName
+          }
+        }
+      } else {
+        return {
+          id: persona.id,
+          contribuyente: persona.contribuyente,
+          rfc: persona.rfc,
+          clave: persona.clave,
+          tipo: persona.tipo,
+          regimenes: persona.regimenes,
+          persona: {
+            nombre: '',
+            apellidoPaterno: '',
+            apellidoMaterno: ''
+          }
+        }
+      }
+    })
+  }
+
+  function getContribuyentes() {
+    return contribuyentes.value
+  }
+
+  function getDescripcion() {
+    return descripcion.value
+  }
+
+  function setDescripcion(value) {
+    descripcion.value = value
+  }
 
   function getEmpresa() {
     return empresa.value
@@ -119,6 +169,10 @@ export const useContribuyenteStore = defineStore('contribuyente', () => {
     tipo,
     regimenes,
     empresa,
+    contribuyentes,
+    descripcion,
+    getDescripcion,
+    setDescripcion,
     getNombre,
     setNombre,
     getApellidoPaterno,
@@ -141,6 +195,8 @@ export const useContribuyenteStore = defineStore('contribuyente', () => {
     regimenNumberStringToText,
     findRegimenById,
     getEmpresa,
-    setEmpresa
+    setEmpresa,
+    setContribuyentes,
+    getContribuyentes
   }
 })

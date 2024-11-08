@@ -7,7 +7,7 @@ import FiscalesData from '@/components/FiscalesData.vue'
 import { useContribuyenteStore } from '@/stores/contribuyente'
 import { storeToRefs } from 'pinia'
 
-const contribuyente = useContribuyenteStore()
+const contribuyenteStore = useContribuyenteStore()
 const {
   nombre,
   apellidoPaterno,
@@ -19,7 +19,7 @@ const {
   tipo,
   regimenes,
   empresa
-} = storeToRefs(contribuyente)
+} = storeToRefs(contribuyenteStore)
 const {
   setNombre,
   setApellidoMaterno,
@@ -29,8 +29,11 @@ const {
   setRegimenes,
   setRfc,
   setTelefono,
-  setTipo
-} = contribuyente
+  setTipo,
+  setDescripcion
+} = contribuyenteStore
+
+const contribuyenteRequest = ref('')
 
 const uidUser = ref('')
 
@@ -41,21 +44,24 @@ onMounted(async () => {
 })
 
 async function submitForm() {
+  const PERSONA_FISICA = 1
+  contribuyenteRequest.value =
+    tipo.value === PERSONA_FISICA
+      ? `${nombre.value}_${apellidoPaterno.value}_${apellidoMaterno.value}`
+      : empresa.value
+
   const { data, error } = await supabase
     .from('contribuyentes')
     .insert([
       {
-        nombre: nombre.value,
-        apellido_paterno: apellidoPaterno.value,
-        apellido_materno: apellidoMaterno.value,
+        contribuyente: contribuyenteRequest.value,
         telefono: telefono.value,
         correo: correo.value,
         rfc: rfc.value,
         tipo: tipo.value,
         clave: clave.value,
         user_id: uidUser.value,
-        regimenes: regimenes.value,
-        empresa: empresa.value
+        regimenes: regimenes.value
       }
     ])
     .select()
@@ -70,7 +76,7 @@ async function submitForm() {
   setRegimenes([])
   setRfc('')
   setTelefono('')
-  setTipo(1)
+  setTipo(1), setDescripcion('')
 
   router.push('/')
 }
@@ -97,11 +103,11 @@ const cancelEdit = () => {}
         <div class="content--column">
           <label>
             RFC:
-            <input type="text" v-model="rfc" required />
+            <input type="text" v-model.trim="rfc" required />
           </label>
           <label>
             Contraseña:
-            <input type="password" v-model="clave" required />
+            <input type="password" v-model.trim="clave" required />
           </label>
         </div>
       </section>
@@ -112,16 +118,16 @@ const cancelEdit = () => {}
           </header>
           <label>
             Nombre:
-            <input type="text" v-model="nombre" required />
+            <input type="text" v-model.trim="nombre" required />
           </label>
           <div class="content--column">
             <label>
               Apellido paterno:
-              <input type="text" v-model="apellidoPaterno" required />
+              <input type="text" v-model.trim="apellidoPaterno" required />
             </label>
             <label>
               Apellido materno:
-              <input type="text" v-model="apellidoMaterno" required />
+              <input type="text" v-model.trim="apellidoMaterno" required />
             </label>
           </div>
         </template>
@@ -131,7 +137,7 @@ const cancelEdit = () => {}
           </header>
           <label>
             Nombre de la empresa:
-            <input type="text" v-model="empresa" required />
+            <input type="text" v-model.trim="empresa" required />
           </label>
         </template>
       </section>
@@ -143,11 +149,11 @@ const cancelEdit = () => {}
         <div class="content--column">
           <label>
             Teléfono:
-            <input type="tel" v-model="telefono" required />
+            <input type="tel" v-model.trim="telefono" required />
           </label>
           <label>
             Correo electrónico:
-            <input type="email" v-model="correo" required />
+            <input type="email" v-model.trim="correo" required />
           </label>
         </div>
       </section>

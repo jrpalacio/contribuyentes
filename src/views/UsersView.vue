@@ -1,54 +1,31 @@
 <script setup>
-import FormNew from '@/components/FormNew.vue'
 import UserList from '@/components/UserList.vue'
 
 import { supabase } from '@/supabase'
-import { onMounted, ref } from 'vue'
-import { useLoginStore } from '@/stores/login'
-/* import router from '@/router' */
+import { watchEffect } from 'vue'
+import { useContribuyenteStore } from '@/stores/contribuyente'
+import { storeToRefs } from 'pinia'
 
-const login = useLoginStore()
-const { handleAuthenticated } = login
+const contribuyenteStore = useContribuyenteStore()
+const { contribuyentes } = storeToRefs(contribuyenteStore)
+const { setContribuyentes } = contribuyenteStore
 
-const users = ref([])
-
-onMounted(async () => {
+watchEffect(async () => {
   try {
-    await handleAuthenticated()
-    const { data: contribuyentes } = await supabase
+    const { data } = await supabase
       .from('contribuyentes')
-      .select(
-        'id, nombre, apellido_paterno, apellido_materno, rfc, clave, tipo, regimenes, empresa'
-      )
+      .select('id, contribuyente, rfc, clave, tipo, regimenes')
 
-    users.value = contribuyentes.map((contribuyente) => {
-      return {
-        id: contribuyente.id,
-        name: `${contribuyente.nombre} ${contribuyente.apellido_paterno} ${contribuyente.apellido_materno}`,
-        rfc: contribuyente.rfc,
-        pass: contribuyente.clave,
-        type: contribuyente.tipo,
-        taxSystem: contribuyente.regimenes,
-        company: contribuyente.empresa
-      }
-    })
+    setContribuyentes({ list: data })
+    console.log('Contribuyentes: ', contribuyentes.value)
   } catch (error) {
     console.error('Error al obtener los usuarios: ', error)
   }
 })
-
-/* function handleBtnShowFormNew() {
-  router.push({ name: 'create-user' })
-} */
 </script>
 
 <template>
-  <UserList :users>
-    <!-- <template #button>
-      <button class="btn--add-user" @click="handleBtnShowFormNew">Agregar contribuyente</button>
-    </template> -->
-  </UserList>
-  <FormNew />
+  <UserList :users="contribuyentes"> </UserList>
 </template>
 
 <style scoped>

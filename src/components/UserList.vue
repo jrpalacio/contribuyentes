@@ -11,6 +11,7 @@ const contribuyente = useContribuyenteStore()
 const { regimenNumberStringToText } = contribuyente
 const toaster = useToasterStore()
 const { showToast } = toaster
+
 defineProps({
   users: {
     type: Array,
@@ -43,6 +44,7 @@ function goToPage(id) {
     <hr />
     <template v-if="users.length === 0">
       <h3>No hay contribuyentes registrados</h3>
+      {{ users }}
     </template>
     <template v-else>
       <ul class="users">
@@ -50,17 +52,12 @@ function goToPage(id) {
           <div class="user--info">
             <div>
               <h3>
-                <template v-if="user.type === 1">
-                  {{ user.name }}
-                </template>
-                <template v-else>
-                  {{ user.company }}
-                </template>
+                {{ user.contribuyente }}
               </h3>
               <p class="info--type">
-                <strong>{{ TIPO_CONTRIBUYENTE[user.type] }}</strong>
+                <strong>{{ TIPO_CONTRIBUYENTE[user.tipo] }}</strong>
                 |
-                <span>{{ regimenNumberStringToText({ numbreString: user.taxSystem[0] }) }}</span>
+                <span>{{ regimenNumberStringToText({ numbreString: user.regimenes[0] }) }}</span>
               </p>
             </div>
             <div class="buttons">

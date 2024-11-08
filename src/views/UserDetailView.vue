@@ -35,19 +35,12 @@ onMounted(async () => {
       .select('*')
       .eq('id', idParam)
 
-    const { data: resRegimenes } = await supabase
-      .from('regimen_por_contribuyente')
-      .select('id_regimen')
-      .eq('id_contribuyente', idParam)
-
     contribuyente.value = {
       rfc: resContribuyente[0].rfc,
       clave: resContribuyente[0].clave,
       tipo: resContribuyente[0].tipo,
-      regimenFiscal: resRegimenes.map((regimen) => regimen.id_regimen),
-      nombre: resContribuyente[0].nombre,
-      apellidoPaterno: resContribuyente[0].apellido_paterno,
-      apellidoMaterno: resContribuyente[0].apellido_materno,
+      regimenFiscal: resContribuyente[0].regimenes,
+      contribuyente: resContribuyente[0].contribuyente,
       telefono: resContribuyente[0].telefono,
       correo: resContribuyente[0].correo
     }
@@ -57,7 +50,7 @@ onMounted(async () => {
 })
 
 const fullName = computed(() => {
-  return `${contribuyente.value.nombre} ${contribuyente.value.apellidoPaterno} ${contribuyente.value.apellidoMaterno}`
+  return `${contribuyente.value.contribuyente}`
 })
 
 function back() {
