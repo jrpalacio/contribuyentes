@@ -17,7 +17,6 @@ watchEffect(async () => {
       .select('id, contribuyente, rfc, clave, tipo, regimenes')
 
     setContribuyentes({ list: data })
-    console.log('Contribuyentes: ', contribuyentes.value)
   } catch (error) {
     console.error('Error al obtener los usuarios: ', error)
   }
