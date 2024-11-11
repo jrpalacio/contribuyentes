@@ -14,10 +14,9 @@ onMounted(async () => {
 })
 
 async function logout() {
-  const { error } = await supabase.auth.signOut()
-  console.error(error)
-  localStorage.removeItem('supabase.auth.token')
-  router.push({ name: 'login' })
+  await supabase.auth.signOut()
+
+  await router.push({ name: 'login' })
 }
 </script>
 <template>
