@@ -48,8 +48,7 @@ async function handleSubmit() {
     if (error) throw new ValidationError(error.message)
 
     setResAuth({ response: data })
-    const token = data.session.access_token
-    localStorage.setItem('supabase.auth.token', token)
+
     router.push({ name: 'users' })
   } catch (error) {
     if (error instanceof ValidationError) {
