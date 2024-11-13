@@ -22,8 +22,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 0.7rem;
+  border-radius: 0.8rem;
+  background-color: #37393d;
 }
 .card--header {
   display: flex;
@@ -32,8 +32,8 @@
   align-items: center;
 }
 .card--icon {
-  border: 1px solid #e0e0e0;
-  border-radius: 0.7rem;
+  background-color: #4b4d50;
+  border-radius: 0.9rem;
   display: flex;
   justify-content: center;
   align-items: center;
