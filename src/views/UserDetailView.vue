@@ -295,26 +295,6 @@ function back() {
 @media (width <= 1024px) {
   .profile {
     flex-direction: column;
-    gap: 1rem;
-  }
-  .avatar {
-    width: 56px;
-    height: 56px;
-    min-width: 56px;
-    img {
-      width: 40px;
-    }
-  }
-  .section {
-    padding: 0.6rem;
-  }
-  .content--cards {
-    gap: 0.4rem;
-  }
-  .list--regimenes {
-    li {
-      font-size: 0.8rem;
-    }
   }
 }
 </style>
