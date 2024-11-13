@@ -51,15 +51,16 @@ onMounted(() => {
 .main {
   grid-area: main;
   padding: 1rem;
+  overflow-y: auto;
 }
 
-@media (max-width: 1024px) {
+@media (width<= 1024px) {
   .main {
-    height: calc(100vh - 108.08px);
+    height: calc(100vh - 108px);
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .container {
     grid-template-columns: 320px 1fr;
     grid-template-rows: 1fr;
@@ -67,6 +68,7 @@ onMounted(() => {
   }
   .main {
     height: calc(100vh - 52.08px);
+    border: 1px solid red;
   }
 }
 </style>
