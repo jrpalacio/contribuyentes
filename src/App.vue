@@ -68,7 +68,6 @@ onMounted(() => {
   }
   .main {
     height: calc(100vh - 52.08px);
-    border: 1px solid red;
   }
 }
 </style>
