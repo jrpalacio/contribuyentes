@@ -3,18 +3,18 @@ import UserList from '@/components/UserList.vue'
 
 import { supabase } from '@/supabase'
 import { watchEffect } from 'vue'
-import { useContribuyenteStore } from '@/stores/contribuyente'
+import { useContribuyentesStore } from '@/stores/contribuyentes'
 import { storeToRefs } from 'pinia'
 
-const contribuyenteStore = useContribuyenteStore()
-const { contribuyentes } = storeToRefs(contribuyenteStore)
-const { setContribuyentes } = contribuyenteStore
+const contribuyentesStore = useContribuyentesStore()
+const { contribuyentes } = storeToRefs(contribuyentesStore)
+const { setContribuyentes } = contribuyentesStore
 
 watchEffect(async () => {
   try {
     const { data } = await supabase
       .from('contribuyentes')
-      .select('id, contribuyente, rfc, clave, tipo, regimenes')
+      .select('id, contribuyente, rfc, clave, tipo, regimenes, correo, telefono')
 
     setContribuyentes({ list: data })
   } catch (error) {
