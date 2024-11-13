@@ -56,8 +56,10 @@ function goToPage(id) {
               </h3>
               <p class="info--type">
                 <strong>{{ TIPO_CONTRIBUYENTE[user.tipo] }}</strong>
-                |
-                <span>{{ regimenNumberStringToText({ numbreString: user.regimenes[0] }) }}</span>
+                <template v-if="user.regimenes.length > 0">
+                  |
+                  <span>{{ regimenNumberStringToText({ numbreString: user.regimenes[0] }) }}</span>
+                </template>
               </p>
             </div>
             <div class="buttons">

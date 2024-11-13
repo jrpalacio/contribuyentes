@@ -1,15 +1,19 @@
 import { defineStore } from 'pinia'
 import { supabase } from '@/supabase'
 
-export const useServicesStore = defineStore('services', () => {
+export const useServicesStore = defineStore('services', async () => {
   async function getContribuyentesDb() {
-    const { data } = await supabase
+    return await supabase
       .from('contribuyentes')
       .select('id, contribuyente, rfc, clave, tipo, regimenes')
-    return data
+  }
+
+  async function getByIdContribuyenteDb({ idParam }) {
+    return await supabase.from('contribuyentes').select('*').eq('id', idParam)
   }
 
   return {
-    getContribuyentesDb
+    getContribuyentesDb,
+    getByIdContribuyenteDb
   }
 })

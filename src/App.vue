@@ -50,7 +50,7 @@ onMounted(() => {
 
 .main {
   grid-area: main;
-  padding: 0.6rem;
+  padding: 1rem;
 }
 
 @media (max-width: 1024px) {

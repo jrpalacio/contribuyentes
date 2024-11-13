@@ -21,7 +21,7 @@ async function logout() {
 </script>
 <template>
   <nav class="nav--session">
-    <h3 class="title">CONTADORA BERNAL</h3>
+    <div></div>
     <template v-if="isAuthenticated">
       <button class="btn--logout" @click="logout">
         <span>Cerrar sesión</span>
