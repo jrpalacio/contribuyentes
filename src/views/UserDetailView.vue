@@ -104,9 +104,6 @@ function back() {
       <div>
         <div class="space-between">
           <h2>{{ fullName }}</h2>
-          <p v-if="contribuyenteLocal.fechaNacimiento">
-            <small> 🎂 {{ contribuyenteLocal.fechaNacimiento }}</small>
-          </p>
         </div>
 
         <p>{{ TIPO_CONTRIBUYENTE[contribuyenteLocal.tipo] }}</p>
@@ -117,6 +114,9 @@ function back() {
             </li>
           </template>
         </ul>
+        <p style="text-align: center; padding: 0.3rem 0">
+          <small>{{ contribuyenteLocal.fechaNacimiento }}</small>
+        </p>
       </div>
     </section>
     <section class="section">
@@ -289,6 +289,32 @@ function back() {
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
+  }
+}
+
+@media (width <= 1024px) {
+  .profile {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .avatar {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    img {
+      width: 40px;
+    }
+  }
+  .section {
+    padding: 0.6rem;
+  }
+  .content--cards {
+    gap: 0.4rem;
+  }
+  .list--regimenes {
+    li {
+      font-size: 0.8rem;
+    }
   }
 }
 </style>
