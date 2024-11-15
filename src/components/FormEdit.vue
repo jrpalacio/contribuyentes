@@ -40,24 +40,34 @@ const cancelEdit = () => {
         <h2>Editar datos del contribuyente</h2>
 
         <form @submit.prevent="submitForm">
-          <div class="form-group">
-            <label>
-              Nombre:
-              <input type="text" v-model="contribuyenteEdit.nombre" required />
-            </label>
-          </div>
-          <div class="form-group">
-            <label>
-              Apellido Paterno:
-              <input type="text" v-model="contribuyenteEdit.apellidoPaterno" required />
-            </label>
-          </div>
-          <div class="form-group">
-            <label>
-              Apellido Materno:
-              <input type="text" v-model="contribuyenteEdit.apellidoMaterno" required />
-            </label>
-          </div>
+          <template v-if="contribuyenteEdit.tipo === 1">
+            <div class="form-group">
+              <label>
+                Nombre:
+                <input type="text" v-model="contribuyenteEdit.persona.nombre" required />
+              </label>
+            </div>
+            <div class="form-group">
+              <label>
+                Apellido Paterno:
+                <input type="text" v-model="contribuyenteEdit.persona.apellidoPaterno" required />
+              </label>
+            </div>
+            <div class="form-group">
+              <label>
+                Apellido Materno:
+                <input type="text" v-model="contribuyenteEdit.persona.apellidoMaterno" required />
+              </label>
+            </div>
+          </template>
+          <template v-else>
+            <div class="form-group">
+              <label>
+                Empresa:
+                <input type="text" v-model="contribuyenteEdit.contribuyente" required />
+              </label>
+            </div>
+          </template>
           <div class="form-group">
             <label>
               RFC:

@@ -57,6 +57,8 @@ export const useContribuyentesStore = defineStore('contribuyentes', () => {
           rfc: persona.rfc,
           clave: persona.clave,
           tipo: persona.tipo,
+          correo: persona.correo,
+          telefono: persona.telefono,
           regimenes: persona.regimenes,
           persona: {
             nombre: '',

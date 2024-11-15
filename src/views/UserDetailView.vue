@@ -120,6 +120,47 @@ async function deleteContribuyente() {
     console.error('Error al eliminar el contribuyente: ', error)
   }
 }
+
+async function handleUpdateData(contribuyenteEdit) {
+  if (contribuyenteEdit.tipo === 1) {
+    const { nombre, apellidoPaterno, apellidoMaterno } = contribuyenteEdit.persona
+    const contribuyente = `${nombre}_${apellidoPaterno}_${apellidoMaterno}`
+    const { data, error } = await supabase
+      .from('contribuyentes')
+      .update({
+        contribuyente,
+        rfc: contribuyenteEdit.rfc,
+        clave: contribuyenteEdit.clave,
+        correo: contribuyenteEdit.correo,
+        telefono: contribuyenteEdit.telefono
+      })
+      .eq('id', idParam)
+      .select()
+
+    console.log(data)
+    contribuyenteDetail.value.contribuyente = contribuyente
+  } else {
+    const { data, error } = await supabase
+      .from('contribuyentes')
+      .update({
+        contribuyente: contribuyenteEdit.contribuyente,
+        rfc: contribuyenteEdit.rfc,
+        clave: contribuyenteEdit.clave,
+        correo: contribuyenteEdit.correo,
+        telefono: contribuyenteEdit.telefono
+      })
+      .eq('id', idParam)
+      .select()
+    console.log(data)
+    contribuyenteDetail.value.contribuyente = contribuyenteEdit.contribuyente
+  }
+
+  contribuyenteDetail.value.rfc = contribuyenteEdit.rfc
+  contribuyenteDetail.value.clave = contribuyenteEdit.clave
+  contribuyenteDetail.value.correo = contribuyenteEdit.correo
+  contribuyenteDetail.value.telefono = contribuyenteEdit.telefono
+  setShowFormEditContribuyente(false)
+}
 </script>
 
 <template>
@@ -197,7 +238,7 @@ async function deleteContribuyente() {
     <IconTrash />
     Eliminar contribuyente
   </button>
-  <FormEdit :contribuyenteDetail />
+  <FormEdit :contribuyente="contribuyenteDetail" @update-user="handleUpdateData" />
 </template>
 
 <style scoped>
