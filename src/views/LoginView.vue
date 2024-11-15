@@ -66,7 +66,7 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <article class="login">
+  <main class="login">
     <form class="form--login" @submit.prevent="handleSubmit">
       <label>
         Correo electrónico
@@ -87,11 +87,17 @@ async function handleSubmit() {
       </label>
       <p class="error">{{ authError }}</p>
       <button class="button" type="submit">Iniciar sesión</button>
-      <p style="text-align: center">
-        <small>caballero-ux.dev</small>
-      </p>
     </form>
-  </article>
+    <footer class="footer">
+      <p style="text-align: center"><small>jrpalacio © 2024</small></p>
+      <ul>
+        <li>Social</li>
+        <li>Linkedin</li>
+        <li>GitHub</li>
+        <li>jrpalacio</li>
+      </ul>
+    </footer>
+  </main>
 </template>
 
 <style scoped>
@@ -99,26 +105,19 @@ async function handleSubmit() {
   display: grid;
   place-items: center;
   height: 100dvh;
-  padding: 0.64rem;
-  background-size: 100% 100%;
-  background-position:
-    0px 0px,
-    0px 0px,
-    0px 0px,
-    0px 0px,
-    0px 0px;
-  background-image: repeating-linear-gradient(315deg, #00ffff2e 92%, #073aff00 100%),
-    repeating-radial-gradient(75% 75% at 238% 218%, #00ffff12 30%, #073aff14 39%),
-    radial-gradient(99% 99% at 109% 2%, #00c9ffff 0%, #073aff00 100%),
-    radial-gradient(99% 99% at 21% 78%, #7b00ffff 0%, #073aff00 100%),
-    radial-gradient(160% 154% at 711px -303px, #2000ffff 0%, #073affff 100%);
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 0.3fr;
+  grid-template-areas: 'container--login' 'container--footer';
 }
 
 .form--login {
+  grid-area: container--login;
   display: flex;
   flex-direction: column;
-
   gap: 1rem;
+  padding: 0.5rem;
   width: 100%;
   max-width: 416px;
 }
@@ -175,5 +174,14 @@ input {
   height: 56px;
   padding: 6px 12px 6px 16px;
   width: 100%;
+}
+
+.footer {
+  grid-area: container--footer;
+  background-color: rgb(255, 243, 18);
+  width: 100%;
+  height: 100%;
+  color: black;
+  font-weight: 800;
 }
 </style>
