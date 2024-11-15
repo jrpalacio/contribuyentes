@@ -2,10 +2,12 @@
 import { onMounted, ref } from 'vue'
 import { supabase } from '@/supabase'
 
-import router from '@/router'
 import FiscalesData from '@/components/FiscalesData.vue'
 import { useContribuyenteStore } from '@/stores/contribuyente'
 import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const contribuyenteStore = useContribuyenteStore()
 const {
@@ -29,8 +31,7 @@ const {
   setRegimenes,
   setRfc,
   setTelefono,
-  setTipo,
-  setDescripcion
+  setTipo
 } = contribuyenteStore
 
 const contribuyenteRequest = ref('')
@@ -66,8 +67,8 @@ async function submitForm() {
     ])
     .select()
 
-  if (error) throw error
-  console.log(data)
+  console.log('data: ', data)
+
   setNombre('')
   setApellidoMaterno('')
   setApellidoPaterno('')
@@ -76,12 +77,23 @@ async function submitForm() {
   setRegimenes([])
   setRfc('')
   setTelefono('')
-  setTipo(1), setDescripcion('')
+  setTipo(1)
 
-  router.push('/')
+  router.push({ name: 'users' })
 }
 
-const cancelEdit = () => {}
+function cancelEdit() {
+  setNombre('')
+  setApellidoMaterno('')
+  setApellidoPaterno('')
+  setClave('')
+  setCorreo('')
+  setRegimenes([])
+  setRfc('')
+  setTelefono('')
+  setTipo(1)
+  router.push({ name: 'users' })
+}
 </script>
 
 <template>

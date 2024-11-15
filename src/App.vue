@@ -1,17 +1,18 @@
 <script setup>
 import NavBar from './components/NavBar.vue'
-import { RouterView } from 'vue-router'
-import router from './router'
+import { RouterView, useRouter } from 'vue-router'
+
 import { ref, onMounted } from 'vue'
 import NavSession from './components/NavSession.vue'
 import { supabase } from './supabase'
 
+const router = useRouter()
 const isAuthenticated = ref(false)
 
 onMounted(() => {
   supabase.auth.onAuthStateChange(async (event, session) => {
     if (!session) {
-      await router.push({ name: 'login' })
+      router.push({ name: 'login' })
       isAuthenticated.value = false
     } else {
       isAuthenticated.value = true

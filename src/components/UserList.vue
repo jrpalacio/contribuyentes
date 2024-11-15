@@ -5,7 +5,9 @@ import IconChevronr from '@/icons/IconChevronr.vue'
 import { useToasterStore } from '@/stores/toaster'
 import { TIPO_CONTRIBUYENTE } from '@/constants/SAT'
 import { useContribuyenteStore } from '@/stores/contribuyente'
-import router from '@/router'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const contribuyente = useContribuyenteStore()
 const { regimenNumberStringToText } = contribuyente
@@ -44,7 +46,6 @@ function goToPage(id) {
     <hr />
     <template v-if="users.length === 0">
       <h3>No hay contribuyentes registrados</h3>
-      {{ users }}
     </template>
     <template v-else>
       <ul class="users">

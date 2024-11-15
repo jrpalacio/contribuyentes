@@ -11,9 +11,7 @@ import IconUserPlus from '@/icons/IconUserPlus.vue'
         <RouterLink to="/"><IconUsers /><span>Contribuyentes</span></RouterLink>
       </li>
       <li class="link">
-        <RouterLink to="/create-user"
-          ><IconUserPlus /><span>Agregar contribuyente</span></RouterLink
-        >
+        <RouterLink to="/create-user"><IconUserPlus /><span>Nuevo contribuyente</span></RouterLink>
       </li>
     </ul>
   </nav>

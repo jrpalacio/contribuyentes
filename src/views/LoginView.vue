@@ -1,5 +1,4 @@
 <script setup>
-import router from '@/router'
 import { useUserStore } from '@/stores/user'
 import { supabase } from '@/supabase'
 import { onMounted, ref } from 'vue'
@@ -7,7 +6,9 @@ import { useLoginStore } from '@/stores/login'
 import { storeToRefs } from 'pinia'
 import { validateLogin } from '@/utils/validations'
 import { ValidationError } from '@/utils/errors'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const login = useLoginStore()
 const { isAuthenticated } = storeToRefs(login)
 const { handleAuthenticated } = login
