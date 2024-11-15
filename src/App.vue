@@ -28,17 +28,35 @@ onMounted(() => {
       <main>
         <NavSession />
         <div class="main">
-          <RouterView />
+          <router-view v-slot="{ Component }">
+            <transition name="fade">
+              <component :is="Component" :key="$route.path" />
+            </transition>
+          </router-view>
         </div>
       </main>
     </div>
   </template>
   <template v-else>
-    <RouterView />
+    <router-view v-slot="{ Component }">
+      <transition name="fade">
+        <component :is="Component" :key="$route.path" />
+      </transition>
+    </router-view>
   </template>
 </template>
 
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 .container {
   display: grid;
   grid-template-columns: 1fr;
