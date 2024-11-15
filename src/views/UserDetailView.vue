@@ -1,6 +1,6 @@
 <script setup>
 import { supabase } from '@/supabase'
-import { ref, onMounted, computed } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import { TIPO_CONTRIBUYENTE } from '@/constants/SAT'
@@ -18,8 +18,10 @@ import IconArrowLeft from '@/icons/IconArrowLeft.vue'
 import IconPassword from '@/icons/IconPassword.vue'
 import IconInfo from '@/icons/IconInfo.vue'
 import IconCopy from '@/icons/IconCopy.vue'
-/* import IconEdit from '@/icons/IconEdit.vue' */
+import IconEdit from '@/icons/IconEdit.vue'
 import { storeToRefs } from 'pinia'
+import IconBriefcase from '@/icons/IconBriefcase.vue'
+import IconTrash from '@/icons/IconTrash.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -34,16 +36,18 @@ const { getContribuyenteById } = contribuyentesStore
 const taxplayer = useTaxplayerStore()
 const { setShowFormEditContribuyente } = taxplayer
 
-const contribuyenteLocal = ref({})
+const contribuyenteDetail = ref({})
 
 const idParam = route.params.id
 
-onMounted(async () => {
+watchEffect(async () => {
   try {
+    /* buscar el contribuyente en el store */
     if (contribuyentes.value.length > 0) {
+      /* para este caso el obneto viene formateado */
       const data = await getContribuyenteById({ id: idParam })
 
-      contribuyenteLocal.value = {
+      contribuyenteDetail.value = {
         rfc: data.rfc,
         clave: data.clave,
         tipo: data.tipo,
@@ -51,22 +55,45 @@ onMounted(async () => {
         contribuyente: data.contribuyente,
         telefono: data.telefono,
         correo: data.correo,
-        fechaNacimiento: data.fechaDeNacimiento
+        fechaNacimiento: data.fechaDeNacimiento,
+        persona: data.persona
       }
     } else {
-      const { data: resContribuyente } = await supabase
-        .from('contribuyentes')
-        .select('*')
-        .eq('id', idParam)
+      /* mandar la petición para obtener los datos del contribuyente */
+      const { data } = await supabase.from('contribuyentes').select('*').eq('id', idParam)
+      const response = data[0]
+      if (response.tipo === 1) {
+        const [name, fatherLastName, motherLastName] = response.contribuyente.split('_')
 
-      contribuyenteLocal.value = {
-        rfc: resContribuyente[0].rfc,
-        clave: resContribuyente[0].clave,
-        tipo: resContribuyente[0].tipo,
-        regimenFiscal: resContribuyente[0].regimenes,
-        contribuyente: resContribuyente[0].contribuyente,
-        telefono: resContribuyente[0].telefono,
-        correo: resContribuyente[0].correo
+        contribuyenteDetail.value = {
+          rfc: response.rfc,
+          clave: response.clave,
+          tipo: response.tipo,
+          regimenFiscal: response.regimenes,
+          contribuyente: `${name} ${fatherLastName} ${motherLastName}`,
+          telefono: response.telefono,
+          correo: response.correo,
+          persona: {
+            nombre: name,
+            apellidoPaterno: fatherLastName,
+            apellidoMaterno: motherLastName
+          }
+        }
+      } else {
+        contribuyenteDetail.value = {
+          rfc: response.rfc,
+          clave: response.clave,
+          tipo: response.tipo,
+          regimenFiscal: response.regimenes,
+          contribuyente: response.contribuyente,
+          telefono: response.telefono,
+          correo: response.correo,
+          persona: {
+            nombre: '',
+            apellidoPaterno: '',
+            apellidoMaterno: ''
+          }
+        }
       }
     }
   } catch (error) {
@@ -74,49 +101,50 @@ onMounted(async () => {
   }
 })
 
-const fullName = computed(() => {
-  return `${contribuyenteLocal.value.contribuyente}`
-})
-
 function back() {
   router.go(-1)
 }
 
-/* function handleBtnShowFormEdit() {
+function handleBtnShowFormEdit() {
   setShowFormEditContribuyente(true)
-} */
+}
+
+async function deleteContribuyente() {
+  try {
+    const { error } = await supabase.from('contribuyentes').delete().eq('id', idParam)
+    if (error) {
+      throw new Error('Error al eliminar el contribuyente')
+    }
+    router.push({ name: 'users' })
+  } catch (error) {
+    console.error('Error al eliminar el contribuyente: ', error)
+  }
+}
 </script>
 
 <template>
   <nav class="navegator">
-    <button type="button" class="btn--back" @click="back">
+    <button type="button" class="btn btn--back" @click="back">
       <IconArrowLeft />
     </button>
-    <h3>Detalle del contribuyente</h3>
-    <div></div>
+    <h3>{{ contribuyenteDetail.contribuyente }}</h3>
+
+    <button type="button" class="btn btn--back" @click="handleBtnShowFormEdit">
+      <IconEdit />
+    </button>
   </nav>
 
   <article class="content--data">
-    <section class="section profile">
-      <figure class="avatar">
-        <img src="/src/assets/tax.webp" alt="" />
-      </figure>
-      <div>
-        <div class="space-between">
-          <h2>{{ fullName }}</h2>
-        </div>
-
-        <p>{{ TIPO_CONTRIBUYENTE[contribuyenteLocal.tipo] }}</p>
-        <ul class="list--regimenes">
-          <template v-for="tax in contribuyenteLocal.regimenFiscal" :key="tax">
-            <li class="content--rf">
-              <p>💼 {{ regimenNumberStringToText({ numbreString: tax }) }}</p>
-            </li>
-          </template>
-        </ul>
-        <p style="text-align: center; padding: 0.3rem 0">
-          <small>{{ contribuyenteLocal.fechaNacimiento }}</small>
-        </p>
+    <section class="section">
+      <header>
+        <h3>{{ TIPO_CONTRIBUYENTE[contribuyenteDetail.tipo] }}</h3>
+      </header>
+      <div class="content--cards">
+        <CardIcon v-for="tax in contribuyenteDetail.regimenFiscal" :key="tax">
+          <template #icono><IconBriefcase /></template>
+          <template #titulo>Regimen fiscal</template>
+          <template #descripcion>{{ regimenNumberStringToText({ numbreString: tax }) }}</template>
+        </CardIcon>
       </div>
     </section>
     <section class="section">
@@ -127,10 +155,10 @@ function back() {
         <CardIcon>
           <template #icono><IconInfo /></template>
           <template #titulo>RFC</template>
-          <template #descripcion> {{ contribuyenteLocal.rfc }} </template>
+          <template #descripcion> {{ contribuyenteDetail.rfc }} </template>
           <template #boton>
-            <button class="button--clipboard" @click="handleActiveInfoFiscal">
-              <IconCopy /> Copiar
+            <button class="btn btn--clipboard" @click="handleActiveInfoFiscal">
+              <IconCopy />
             </button>
           </template>
         </CardIcon>
@@ -139,8 +167,8 @@ function back() {
           <template #titulo>Contraseña</template>
           <template #descripcion> * * * * * * * * </template>
           <template #boton>
-            <button class="button--clipboard" @click="handleActiveInfoFiscal">
-              <IconCopy /> Copiar
+            <button class="btn btn--clipboard" @click="handleActiveInfoFiscal">
+              <IconCopy />
             </button>
           </template>
         </CardIcon>
@@ -154,107 +182,31 @@ function back() {
         <CardIcon>
           <template #icono><IconEmail /></template>
           <template #titulo>Correo electrónico</template>
-          <template #descripcion> {{ contribuyenteLocal.correo }} </template>
+          <template #descripcion> {{ contribuyenteDetail.correo }} </template>
         </CardIcon>
         <CardIcon>
           <template #icono><IconPhone /></template>
           <template #titulo>Telefono</template>
-          <template #descripcion> {{ contribuyenteLocal.telefono }} </template>
+          <template #descripcion> {{ contribuyenteDetail.telefono }} </template>
         </CardIcon>
       </div>
     </section>
   </article>
 
-  <FormEdit :contribuyenteLocal />
+  <button class="btn--delete" type="button" @click="deleteContribuyente">
+    <IconTrash />
+    Eliminar contribuyente
+  </button>
+  <FormEdit :contribuyenteDetail />
 </template>
 
 <style scoped>
-.space-between {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  small {
-    font-size: 0.75rem;
-    letter-spacing: 0.021rem;
-    color: #fb4f93;
-  }
-}
-.avatar {
-  /* hacer que la imagen no se deforme */
-  display: grid;
-  place-items: center;
-  background-color: #ffffff;
-  text-align: center;
-  border-radius: 50%;
-
-  width: 72px;
-  height: 72px;
-  min-width: 72px;
-  img {
-    width: 56px;
-    object-fit: cover;
-  }
-}
-
-.profile {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1rem;
-}
-
-.section {
-  padding: 1rem;
-  background-color: #212327;
-
-  color: white;
-  border-radius: 20px;
-}
-.btn--back {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 48px;
-  width: 48px;
-  background-color: transparent;
-  border: none;
-  border-radius: 0.9rem;
-  cursor: pointer;
-  color: white;
-
-  &:hover {
-    background-color: #087fc458;
-  }
-}
-
 .navegator {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  text-align: center;
-}
-
-.button--clipboard {
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  gap: 0.5rem;
-  background-color: transparent;
-  color: white;
-  border: none;
-  padding: 0.6rem 1rem;
-  border-radius: 0.5em;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #087ec4;
-  }
-}
-
-.content--rf {
-  display: flex;
-  justify-content: space-between;
+  padding: 1rem;
 }
 
 .content--data {
@@ -264,6 +216,51 @@ function back() {
   padding: 0;
 }
 
+.section {
+  background-color: #212327;
+  border-radius: 20px;
+  padding: 1rem 1.2rem;
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  small {
+    font-size: 0.75rem;
+    letter-spacing: 0.021rem;
+    color: #ffffff93;
+  }
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  width: 48px;
+  background-color: transparent;
+  border: none;
+  border-radius: 0.9rem;
+  cursor: pointer;
+}
+
+.btn--back {
+  color: white;
+  &:hover {
+    background-color: #087fc422;
+  }
+}
+
+.btn--clipboard {
+  display: flex;
+  color: white;
+
+  &:hover {
+    background-color: #087ec4;
+  }
+}
+
 .content--cards {
   display: flex;
   flex-direction: column;
@@ -271,30 +268,20 @@ function back() {
   padding: 0.8rem 0;
 }
 
-.list--regimenes {
+.btn--delete {
+  margin-top: 1rem;
   display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  li {
-    color: #dfe0df;
-    font-weight: 500;
-    font-size: 0.75rem;
-    letter-spacing: 0.021rem;
-    padding: 0.1rem 0.5rem;
-  }
-}
+  align-items: center;
+  gap: 0.8rem;
+  border: none;
+  background-color: hsl(0, 12%, 5%);
 
-@media (width >= 1024px) {
-  .profile--header {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-  }
-}
+  color: white;
+  border-radius: 9px;
+  padding: 0.5rem 1rem;
 
-@media (width <= 1024px) {
-  .profile {
-    flex-direction: column;
+  &:hover {
+    background-color: #dc4c4c;
   }
 }
 </style>
