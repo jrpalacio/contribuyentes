@@ -112,8 +112,8 @@ hr {
   margin: 0.8rem 0;
 }
 .user {
-  display: flex;
-  gap: 1.6rem;
+  display: grid;
+  grid-template-columns: 1fr 40px;
   align-items: center;
 
   background-color: #1e2229;
