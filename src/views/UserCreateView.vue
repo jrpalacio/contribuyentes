@@ -185,7 +185,7 @@ function cancelEdit() {
 }
 
 form {
-  background-color: #1e2229;
+  background-color: #212327;
   border-radius: 0.8rem;
   padding: 1.2rem 0.5rem;
 }

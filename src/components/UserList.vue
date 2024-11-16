@@ -109,14 +109,14 @@ hr {
   flex-direction: column;
   gap: 0.7rem;
   width: 100%;
-  margin: 0.8rem 0;
+  margin: 0.8rem 0 3rem;
 }
 .user {
   display: grid;
   grid-template-columns: 1fr 40px;
   align-items: center;
 
-  background-color: #1e2229;
+  background-color: #212327;
   padding: 0.8rem 1rem;
   border-radius: 1.1rem;
 

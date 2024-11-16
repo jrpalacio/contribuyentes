@@ -25,15 +25,13 @@ onMounted(() => {
   <template v-if="isAuthenticated">
     <div class="container">
       <NavBar />
-      <main>
+      <main class="main">
         <NavSession />
-        <div class="main">
-          <router-view v-slot="{ Component }">
-            <transition name="fade">
-              <component :is="Component" :key="$route.path" />
-            </transition>
-          </router-view>
-        </div>
+        <router-view v-slot="{ Component }">
+          <transition name="fade">
+            <component :is="Component" :key="$route.path" />
+          </transition>
+        </router-view>
       </main>
     </div>
   </template>
@@ -64,7 +62,7 @@ onMounted(() => {
   grid-template-areas:
     'main'
     'navbar';
-  overflow-y: auto;
+  height: 100%;
 }
 
 .main {
@@ -75,7 +73,7 @@ onMounted(() => {
 
 @media (width<= 1024px) {
   .main {
-    height: calc(100vh - 108px);
+    height: calc(100vh - 60px);
   }
 }
 
@@ -84,9 +82,6 @@ onMounted(() => {
     grid-template-columns: 320px 1fr;
     grid-template-rows: 1fr;
     grid-template-areas: 'navbar main';
-  }
-  .main {
-    height: calc(100vh - 52.08px);
   }
 }
 </style>

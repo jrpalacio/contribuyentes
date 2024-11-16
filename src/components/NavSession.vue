@@ -40,9 +40,6 @@ async function logout() {
 </template>
 
 <style scoped>
-.title {
-  color: #ff1a7a;
-}
 .profile {
   width: 32px;
   height: 32px;
@@ -72,7 +69,7 @@ a {
   align-items: center;
 
   span {
-    color: #ff1a7974;
+    color: #fff;
     font-size: 0.875rem;
   }
 }
