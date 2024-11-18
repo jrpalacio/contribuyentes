@@ -1,17 +1,13 @@
 <script setup>
 import { useUserStore } from '@/stores/user'
 import { supabase } from '@/supabase'
-import { onMounted, ref } from 'vue'
-import { useLoginStore } from '@/stores/login'
-import { storeToRefs } from 'pinia'
+import { ref } from 'vue'
+
 import { validateLogin } from '@/utils/validations'
 import { ValidationError } from '@/utils/errors'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const login = useLoginStore()
-const { isAuthenticated } = storeToRefs(login)
-const { handleAuthenticated } = login
 
 const user = useUserStore()
 const { setResAuth } = user
@@ -25,10 +21,6 @@ const types = ['password', 'text']
 const msgShowPwd = ['Mostrar contraseña', 'Ocultar contraseña']
 const inputType = ref(types[0])
 const showPwd = ref(msgShowPwd[0])
-onMounted(async () => {
-  await handleAuthenticated()
-  if (isAuthenticated.value) router.push({ name: 'users' })
-})
 
 function handleInputType() {
   inputType.value = inputType.value === types[0] ? types[1] : types[0]
@@ -68,7 +60,8 @@ async function handleSubmit() {
 
 <template>
   <main class="login">
-    <form class="form--login" @submit.prevent="handleSubmit">
+    <form class="login__form" @submit.prevent="handleSubmit">
+      <img class="logo" src="/src/assets/logo.svg" alt="" />
       <label>
         Correo electrónico
         <input type="email" v-model="email" :class="{ 'input-error': emailError }" />
@@ -90,33 +83,37 @@ async function handleSubmit() {
       <button class="button" type="submit">Iniciar sesión</button>
     </form>
     <footer class="footer">
-      <p style="text-align: center"><small>jrpalacio © 2024</small></p>
       <ul>
-        <li>Social</li>
-        <li>Linkedin</li>
-        <li>GitHub</li>
-        <li>jrpalacio</li>
+        <!-- abrir en nueva ventana -->
+        <li><a href="https://www.linkedin.com/in/jrpalaciodev/" target="_blank">linkedin</a></li>
       </ul>
+      <p><small>jrpalacio © 2024</small></p>
     </footer>
   </main>
 </template>
 
 <style scoped>
+.logo {
+  background-color: rgb(255, 243, 18);
+  height: 12rem;
+  padding: 1.2rem;
+  margin-inline: auto;
+  border-radius: 1rem;
+}
 .login {
   display: grid;
-  place-items: center;
-  height: 100dvh;
-
-  display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr 0.3fr;
+  grid-template-rows: 1fr 0.1fr;
   grid-template-areas: 'container--login' 'container--footer';
+  height: 100dvh;
 }
 
-.form--login {
+.login__form {
   grid-area: container--login;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  margin-inline: auto;
   gap: 1rem;
   padding: 0.5rem;
   width: 100%;
@@ -141,11 +138,11 @@ label {
 }
 
 .input-error {
-  border-color: red;
+  border-color: rgb(255, 243, 18);
 }
 
 .error {
-  color: red;
+  color: rgb(255, 243, 18);
   font-size: 0.875rem;
 }
 
@@ -179,10 +176,15 @@ input {
 
 .footer {
   grid-area: container--footer;
+  display: flex;
+  justify-content: space-between;
   background-color: rgb(255, 243, 18);
-  width: 100%;
-  height: 100%;
-  color: black;
-  font-weight: 800;
+
+  color: #242424;
+  padding: 1.6rem 1rem;
+  font-weight: 600;
+  a {
+    color: #242424;
+  }
 }
 </style>
