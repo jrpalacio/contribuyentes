@@ -62,7 +62,7 @@ async function handleSubmit() {
   <main class="login">
     <form class="login__form" @submit.prevent="handleSubmit">
       <div class="logo">
-        <img src="/src/assets/logO.svg" alt="" />
+        <img src="/src/assets/logo.svg" alt="" />
       </div>
       <label>
         Correo electrónico
