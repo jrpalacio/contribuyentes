@@ -85,11 +85,30 @@ async function handleSubmit() {
       <button class="button" type="submit">Iniciar sesión</button>
     </form>
     <footer class="footer">
-      <ul>
-        <!-- abrir en nueva ventana -->
-        <li><a href="https://www.linkedin.com/in/jrpalaciodev/" target="_blank">linkedin</a></li>
-      </ul>
-      <p><small>jrpalacio © 2024</small></p>
+      <div class="footer__content">
+        <div></div>
+        <ul>
+          <!-- abrir en nueva ventana -->
+          <li><strong>Social</strong></li>
+          <li>
+            <a
+              href="https://www.linkedin.com/in/jrpalaciodev/"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Linkedin</a
+            >
+          </li>
+          <li>
+            <a href="https://platzi.com/p/jrpalacio/" target="_blank" rel="noopener noreferrer"
+              >Platzi</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="footer__create">
+        <p><small>Creado con amor & moviendo las manitas</small></p>
+        <p><strong>jrpalacio.dev</strong></p>
+      </div>
     </footer>
   </main>
 </template>
@@ -111,7 +130,7 @@ async function handleSubmit() {
 .login {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr 0.1fr;
+  grid-template-rows: 1fr 0.3fr;
   grid-template-areas: 'container--login' 'container--footer';
   height: 100dvh;
 }
@@ -184,15 +203,41 @@ input {
 
 .footer {
   grid-area: container--footer;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr auto;
+  grid-template-areas: 'container--footer' 'container--create';
+  background-color: rgb(255, 243, 18);
+  padding: 1.8rem 1rem 1rem;
+  color: #242424;
+  font-weight: 600;
+}
+
+.footer__content {
+  grid-area: 'container--footer';
   display: flex;
   justify-content: space-between;
-  background-color: rgb(255, 243, 18);
+  max-width: 1024px;
+  margin-inline: auto;
+  width: 100%;
 
-  color: #242424;
-  padding: 1.6rem 1rem;
-  font-weight: 600;
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
   a {
     color: #242424;
   }
+}
+.footer__create {
+  grid-area: 'container--create';
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #242424;
+  font-weight: 600;
+  font-size: 0.775rem;
 }
 </style>
