@@ -82,6 +82,9 @@ nav a:first-of-type {
 }
 
 @media (width <= 425px) {
+  .links {
+    gap: 1rem;
+  }
   .link span {
     display: none;
   }

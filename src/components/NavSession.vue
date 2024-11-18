@@ -53,11 +53,12 @@ a {
   align-items: center;
 }
 .nav--session {
+  grid-area: 'navsession';
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 1rem 0.75rem 0.5rem;
-  background-color: #13161c;
+  background-color: #202124;
 }
 .btn--logout {
   background-color: transparent;

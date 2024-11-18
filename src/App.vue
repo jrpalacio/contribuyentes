@@ -24,9 +24,9 @@ onMounted(() => {
 <template>
   <template v-if="isAuthenticated">
     <div class="container">
+      <NavSession />
       <NavBar />
       <main class="main">
-        <NavSession />
         <router-view v-slot="{ Component }">
           <transition name="fade">
             <component :is="Component" :key="$route.path" />
@@ -58,8 +58,9 @@ onMounted(() => {
 .container {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr 48px;
+  grid-template-rows: 5.5rem 1fr 3rem;
   grid-template-areas:
+    'navsession'
     'main'
     'navbar';
   height: 100%;
@@ -80,8 +81,11 @@ onMounted(() => {
 @media (width >= 1024px) {
   .container {
     grid-template-columns: 320px 1fr;
-    grid-template-rows: 1fr;
-    grid-template-areas: 'navbar main';
+    grid-template-rows: 5.5rem 1fr;
+
+    grid-template-areas:
+      'navbar navsession'
+      'navbar main';
   }
 }
 </style>
