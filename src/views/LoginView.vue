@@ -61,7 +61,9 @@ async function handleSubmit() {
 <template>
   <main class="login">
     <form class="login__form" @submit.prevent="handleSubmit">
-      <img class="logo" src="/src/assets/logo.svg" alt="" />
+      <div class="logo">
+        <img src="/src/assets/logO.svg" alt="" />
+      </div>
       <label>
         Correo electrónico
         <input type="email" v-model="email" :class="{ 'input-error': emailError }" />
@@ -96,9 +98,15 @@ async function handleSubmit() {
 .logo {
   background-color: rgb(255, 243, 18);
   height: 12rem;
-  padding: 1.2rem;
+  width: 12rem;
+  padding: 1rem;
   margin-inline: auto;
-  border-radius: 1rem;
+  border-radius: 15rem;
+  display: grid;
+  place-items: center;
+  & img {
+    height: 8rem;
+  }
 }
 .login {
   display: grid;
