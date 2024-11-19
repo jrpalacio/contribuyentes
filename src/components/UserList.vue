@@ -6,6 +6,7 @@ import { useToasterStore } from '@/stores/toaster'
 import { TIPO_CONTRIBUYENTE } from '@/constants/SAT'
 import { useContribuyenteStore } from '@/stores/contribuyente'
 import { useRouter } from 'vue-router'
+import ItemCard from './ItemCard.vue'
 
 const router = useRouter()
 
@@ -39,60 +40,78 @@ function goToPage(id) {
 
 <template>
   <div>
-    <div class="list--header">
+    <header class="list--header">
       <h2>Mis contribuyentes</h2>
       <slot name="button"></slot>
-    </div>
+    </header>
     <hr />
     <template v-if="users.length === 0">
       <h3>No hay contribuyentes registrados</h3>
     </template>
-    <template v-else>
-      <ul class="users">
-        <li class="user" v-for="user in users" :key="user.id">
-          <div class="user--info">
-            <div>
-              <h3>
-                {{ user.contribuyente }}
-              </h3>
-              <p class="info--type">
-                <strong>{{ TIPO_CONTRIBUYENTE[user.tipo] }}</strong>
-                <template v-if="user.regimenes.length > 0">
-                  |
-                  <span>{{ regimenNumberStringToText({ numbreString: user.regimenes[0] }) }}</span>
-                </template>
-              </p>
-            </div>
-            <div class="buttons">
-              <button
-                class="button--clipboard"
-                @click="copyToClipboard({ text: user.rfc, msg: 'RFC copiado' })"
-              >
-                <IconCopy /> RFC
-              </button>
-              <button
-                class="button--clipboard"
-                @click="copyToClipboard({ text: user.pass, msg: 'Contraseña copiada' })"
-              >
-                <IconCopy /> Contraseña
-              </button>
-            </div>
-          </div>
-          <button class="btn--go" @click="goToPage(user.id)">
-            <IconChevronr />
-          </button>
-        </li>
+
+    <article v-else>
+      <ul class="card-list">
+        <ItemCard
+          v-for="user in users"
+          :key="user.id"
+          :titulo="user.contribuyente"
+          :tipo="TIPO_CONTRIBUYENTE[user.tipo]"
+          :descripcion="regimenNumberStringToText({ numbreString: user.regimenes[0] })"
+        >
+          <template #action-buttons>
+            <button class="btn" @click="copyToClipboard({ text: user.rfc, msg: 'RFC copiado' })">
+              <IconCopy /> <span>RFC</span>
+            </button>
+            <button
+              class="btn"
+              @click="copyToClipboard({ text: user.clave, msg: 'Clave copiada' })"
+            >
+              <IconCopy /> <span>Clave</span>
+            </button>
+            <button class="btn" @click="goToPage(user.id)">
+              <IconChevronr />
+            </button>
+          </template>
+        </ItemCard>
       </ul>
-    </template>
+    </article>
   </div>
   <VToaster />
 </template>
 
 <style scoped>
-h3 {
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: transparent;
+  border: none;
+
+  border-radius: 0.8em;
+  cursor: pointer;
+
+  padding: 0.2rem 0.6rem;
+
+  &:hover {
+    background-color: #087ec4;
+  }
+}
+
+/* old version */
+
+h2 {
   font-weight: 500;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   letter-spacing: 0.013rem;
+  color: #88e557;
 }
 
 hr {
@@ -104,39 +123,6 @@ hr {
   width: 100%;
 }
 
-.users {
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
-  width: 100%;
-  margin: 0.8rem 0 3rem;
-}
-.user {
-  display: grid;
-  grid-template-columns: 1fr 40px;
-  align-items: center;
-
-  background-color: #212327;
-  padding: 0.8rem 1rem;
-  border-radius: 1.1rem;
-
-  &:hover {
-    background-color: #087fc40e;
-  }
-}
-.user--info {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-}
-.buttons {
-  display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
-}
 .button--clipboard {
   display: flex;
   flex-direction: row;
@@ -153,25 +139,6 @@ hr {
     background-color: #087ec4;
   }
 }
-.list--header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.2rem 0;
-}
-
-.info--type {
-  font-weight: 500;
-  font-size: 0.85rem;
-  letter-spacing: 0.019rem;
-
-  & strong {
-    font-style: italic;
-  }
-  & span {
-    color: #00c6bb;
-  }
-}
 
 .btn--go {
   display: flex;
@@ -186,22 +153,6 @@ hr {
 
   &:hover {
     background-color: #087ec4;
-  }
-}
-
-@media (width <= 768px) {
-  .user--info {
-    flex-direction: column;
-    align-items: start;
-  }
-  .buttons {
-    margin-top: 0.4rem;
-  }
-}
-@media (width <= 425px) {
-  .buttons {
-    flex-direction: column;
-    width: 100%;
   }
 }
 </style>
