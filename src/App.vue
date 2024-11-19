@@ -68,13 +68,13 @@ onMounted(() => {
 
 .main {
   grid-area: main;
-  padding: 0.4rem;
+  padding: 0.4rem 0.4rem 1rem;
   overflow-y: auto;
 }
 
 @media (width<= 1024px) {
   .main {
-    height: calc(100vh - 60px);
+    height: calc(100vh - 114px);
   }
 }
 
