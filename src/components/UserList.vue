@@ -1,13 +1,11 @@
 <script setup>
 import VToaster from './VToaster.vue'
-import IconCopy from './icons/IconCopy.vue'
+
 import { useToasterStore } from '@/stores/toaster'
 import { TIPO_CONTRIBUYENTE } from '@/constants/SAT'
 import { useContribuyenteStore } from '@/stores/contribuyente'
-import { useRouter } from 'vue-router'
-import ItemCard from './ItemCard.vue'
 
-const router = useRouter()
+import ContribuyenteCard from './ContribuyenteCard.vue'
 
 const contribuyente = useContribuyenteStore()
 const { regimenNumberStringToText } = contribuyente
@@ -31,10 +29,6 @@ const copyToClipboard = ({ text, msg }) => {
       console.error('Error al copiar el RFC: ', err)
     })
 }
-
-function goToPage(id) {
-  router.push({ name: 'user-detail', params: { id } })
-}
 </script>
 
 <template>
@@ -50,26 +44,29 @@ function goToPage(id) {
 
     <article v-else>
       <ul class="card-list">
-        <ItemCard
+        <ContribuyenteCard
           v-for="user in users"
           :key="user.id"
+          :id="user.id"
           :titulo="user.contribuyente"
           :tipo="TIPO_CONTRIBUYENTE[user.tipo]"
           :descripcion="regimenNumberStringToText({ numbreString: user.regimenes[0] })"
         >
           <template #action-buttons>
-            <button class="btn" @click="copyToClipboard({ text: user.rfc, msg: 'RFC copiado' })">
-              <IconCopy /> <span>RFC</span>
+            <button
+              class="btn--copiar"
+              @click="copyToClipboard({ text: user.rfc, msg: 'RFC copiado' })"
+            >
+              <span># RFC</span>
             </button>
             <button
-              class="btn"
+              class="btn--copiar"
               @click="copyToClipboard({ text: user.clave, msg: 'Clave copiada' })"
             >
-              <IconCopy /> <span>Clave</span>
+              <span># Contraseña</span>
             </button>
-            <button class="btn" @click="goToPage(user.id)">Ver más</button>
           </template>
-        </ItemCard>
+        </ContribuyenteCard>
       </ul>
     </article>
   </div>
@@ -80,29 +77,8 @@ function goToPage(id) {
 .card-list {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-}
-
-.btn {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
   gap: 0.4rem;
-  background-color: transparent;
-  border: none;
-
-  border-radius: 0.8em;
-  cursor: pointer;
-
-  padding: 0.2rem 0.6rem;
-
-  &:hover {
-    background-color: #087ec4;
-  }
 }
-
-/* old version */
 
 h2 {
   font-weight: 500;
@@ -120,36 +96,14 @@ hr {
   width: 100%;
 }
 
-.button--clipboard {
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  gap: 0.5rem;
-  background-color: transparent;
-  color: white;
-  border: none;
-  padding: 0.6rem 1rem;
-  border-radius: 0.5em;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #087ec4;
-  }
-}
-
-.btn--go {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.btn--copiar {
   background-color: transparent;
   border: none;
+  color: #fff;
   cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 0.5em;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #087ec4;
+  font-size: 0.8rem;
+  :hover {
+    color: #fffb12;
   }
 }
 </style>
