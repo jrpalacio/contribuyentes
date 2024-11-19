@@ -58,7 +58,7 @@ onMounted(() => {
 .container {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 5.5rem 1fr 3rem;
+  grid-template-rows: 3.625rem 1fr 3rem;
   grid-template-areas:
     'navsession'
     'main'
@@ -81,7 +81,7 @@ onMounted(() => {
 @media (width >= 1024px) {
   .container {
     grid-template-columns: 320px 1fr;
-    grid-template-rows: 5.5rem 1fr;
+    grid-template-rows: 3.625rem 1fr;
 
     grid-template-areas:
       'navbar navsession'

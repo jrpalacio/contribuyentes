@@ -54,11 +54,15 @@ a {
 }
 .nav--session {
   grid-area: 'navsession';
+  position: fixed;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 1rem 0.75rem 0.5rem;
   background-color: #202124;
+  right: 0;
+  left: 0;
 }
 .btn--logout {
   background-color: transparent;
