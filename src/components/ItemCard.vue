@@ -36,7 +36,7 @@ function handleShowActionButtons() {
           <span class="text__regimenes"> {{ descripcion }}</span>
         </p>
       </section>
-      <button class="btn" @click="handleShowActionButtons">
+      <button class="btn-chevron" @click="handleShowActionButtons">
         <template v-if="showActionButtons">
           <IconChevronUp />
         </template>
@@ -90,26 +90,23 @@ h3 {
 
 .item--buttons {
   display: flex;
+  flex-direction: row;
   gap: 0.5rem;
+  padding: 0.8rem 0;
 }
 
-.btn {
+.btn-chevron {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 0.4rem;
+  height: 32px;
+  min-width: 32px;
   background-color: transparent;
   border: none;
 
   border-radius: 0.8em;
   cursor: pointer;
-
-  padding: 0.2rem 0.6rem;
-
-  &:hover {
-    background-color: #087ec4;
-  }
 }
 
 @media (width >= 1024px) {
