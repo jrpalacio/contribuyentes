@@ -253,12 +253,12 @@ async function handleUpdateData(contribuyenteEdit) {
 .content--data {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.6rem;
   padding: 0;
 }
 
 .section {
-  background-color: #212327;
+  background-color: #181818;
   border-radius: 20px;
   padding: 1rem 1.2rem;
 }
