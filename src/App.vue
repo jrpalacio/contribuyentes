@@ -68,7 +68,7 @@ onMounted(() => {
 
 .main {
   grid-area: main;
-  padding: 1rem;
+  padding: 0.4rem;
   overflow-y: auto;
 }
 
