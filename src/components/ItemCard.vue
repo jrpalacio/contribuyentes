@@ -29,7 +29,7 @@ function handleShowActionButtons() {
     <div class="item--info">
       <section>
         <header>
-          <h3>{{ titulo }}</h3>
+          <h3 class="item--title">{{ titulo }}</h3>
         </header>
         <p class="item--text">
           <strong>{{ tipo }} | </strong>
@@ -65,6 +65,14 @@ h3 {
 .item--info {
   display: flex;
   justify-content: space-between;
+}
+
+.item--title {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%; /* Ajustable según el contenedor */
 }
 .item--text {
   font-size: 0.9rem;
@@ -111,14 +119,27 @@ h3 {
 }
 @media (width <= 1023px) {
   .item--text {
-    max-width: 200px; /* Muestra más caracteres */
+    max-width: 400px; /* Muestra más caracteres */
   }
 }
-@media (width <= 768px) {
+@media (width <= 425px) {
+  .item--title {
+    max-width: 260px;
+  }
   .item--text {
+    max-width: 260px;
+
     strong {
       display: none;
     }
+  }
+}
+@media (width <= 320px) {
+  .item--title {
+    max-width: 200px;
+  }
+  .item--text {
+    max-width: 200px;
   }
 }
 </style>

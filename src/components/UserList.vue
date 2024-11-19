@@ -106,9 +106,9 @@ function goToPage(id) {
 
 h2 {
   font-weight: 500;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   letter-spacing: 0.013rem;
-  color: #88e557;
+  color: #009a93;
 }
 
 hr {
