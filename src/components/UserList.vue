@@ -1,7 +1,6 @@
 <script setup>
 import VToaster from './VToaster.vue'
 import IconCopy from './icons/IconCopy.vue'
-import IconChevronr from '@/icons/IconChevronr.vue'
 import { useToasterStore } from '@/stores/toaster'
 import { TIPO_CONTRIBUYENTE } from '@/constants/SAT'
 import { useContribuyenteStore } from '@/stores/contribuyente'

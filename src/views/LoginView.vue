@@ -86,7 +86,6 @@ async function handleSubmit() {
     </form>
     <footer class="footer">
       <div class="footer__content">
-        <div></div>
         <ul>
           <!-- abrir en nueva ventana -->
           <li><strong>Social</strong></li>
@@ -130,7 +129,7 @@ async function handleSubmit() {
 .login {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr 0.3fr;
+  grid-template-rows: 1fr 0.15fr;
   grid-template-areas: 'container--login' 'container--footer';
   height: 100dvh;
 }
@@ -216,14 +215,14 @@ input {
 .footer__content {
   grid-area: 'container--footer';
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   max-width: 1024px;
   margin-inline: auto;
   width: 100%;
 
   ul {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 0.6rem;
   }
   a {
@@ -239,5 +238,6 @@ input {
   color: #242424;
   font-weight: 600;
   font-size: 0.775rem;
+  text-align: center;
 }
 </style>
