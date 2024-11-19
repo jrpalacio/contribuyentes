@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue'
-import IconChevronr from '@/icons/IconChevronr.vue'
 import IconChevronDown from '@/icons/IconChevronDown.vue'
 import IconChevronUp from '@/icons/IconChevronUp.vue'
 

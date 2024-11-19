@@ -68,9 +68,7 @@ function goToPage(id) {
             >
               <IconCopy /> <span>Clave</span>
             </button>
-            <button class="btn" @click="goToPage(user.id)">
-              <IconChevronr />
-            </button>
+            <button class="btn" @click="goToPage(user.id)">Ver más</button>
           </template>
         </ItemCard>
       </ul>
