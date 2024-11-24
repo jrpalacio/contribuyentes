@@ -30,24 +30,24 @@ function goToPage(id) {
 <template>
   <li>
     <article class="contribuyente-card">
-      <section class="space--between">
-        <p class="card__tipo">
-          <small>
+      <section>
+        <h3 class="card__titulo">{{ titulo }}</h3>
+        <p class="card__descripcion">
+          <small class="card__tipo">
             <strong>
               {{ tipo }}
             </strong>
           </small>
+          | {{ descripcion }}
         </p>
-        <button class="btn--rounded" @click="goToPage(id)"><IconChevronr /></button>
-      </section>
-      <section>
-        <h3 class="card__titulo">{{ titulo }}</h3>
-        <p class="card__descripcion">💼 {{ descripcion }}</p>
       </section>
       <section>
         <hr class="hr" />
-        <div class="card__botones">
-          <slot name="action-buttons"></slot>
+        <div class="space--between">
+          <div class="card__botones">
+            <slot name="action-buttons"></slot>
+          </div>
+          <button class="btn--rounded" @click="goToPage(id)"><IconChevronr /></button>
         </div>
       </section>
     </article>
@@ -62,7 +62,7 @@ function goToPage(id) {
 }
 .contribuyente-card {
   background-color: #121212;
-  padding: 0.8rem 0.8rem 1.2rem;
+  padding: 0.8rem 1rem;
   border-radius: 1.6rem;
 }
 
