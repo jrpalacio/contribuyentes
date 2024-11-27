@@ -39,36 +39,42 @@ const copyToClipboard = ({ text, msg }) => {
     </header>
     <hr />
     <template v-if="users.length === 0">
-      <h3>No hay contribuyentes registrados</h3>
+      <article>
+        <figure class="img--empty">
+          <img src="/src/assets/img-empty.webp" alt="imagen de lista vacia" />
+          <figcaption>No hay registros</figcaption>
+        </figure>
+      </article>
     </template>
-
-    <article v-else>
-      <ul class="card-list">
-        <ContribuyenteCard
-          v-for="user in users"
-          :key="user.id"
-          :id="user.id"
-          :titulo="user.contribuyente"
-          :tipo="TIPO_CONTRIBUYENTE[user.tipo]"
-          :descripcion="regimenNumberStringToText({ numbreString: user.regimenes[0] })"
-        >
-          <template #action-buttons>
-            <button
-              class="btn--copiar"
-              @click="copyToClipboard({ text: user.rfc, msg: 'RFC copiado' })"
-            >
-              <span># RFC</span>
-            </button>
-            <button
-              class="btn--copiar"
-              @click="copyToClipboard({ text: user.clave, msg: 'Clave copiada' })"
-            >
-              <span># Contraseña</span>
-            </button>
-          </template>
-        </ContribuyenteCard>
-      </ul>
-    </article>
+    <template v-else>
+      <article>
+        <ul class="card-list">
+          <ContribuyenteCard
+            v-for="user in users"
+            :key="user.id"
+            :id="user.id"
+            :titulo="user.contribuyente"
+            :tipo="TIPO_CONTRIBUYENTE[user.tipo]"
+            :descripcion="regimenNumberStringToText({ numbreString: user.regimenes[0] })"
+          >
+            <template #action-buttons>
+              <button
+                class="btn--copiar"
+                @click="copyToClipboard({ text: user.rfc, msg: 'RFC copiado' })"
+              >
+                <span># RFC</span>
+              </button>
+              <button
+                class="btn--copiar"
+                @click="copyToClipboard({ text: user.clave, msg: 'Clave copiada' })"
+              >
+                <span># Contraseña</span>
+              </button>
+            </template>
+          </ContribuyenteCard>
+        </ul>
+      </article>
+    </template>
   </div>
   <VToaster />
 </template>
@@ -84,7 +90,7 @@ h2 {
   font-weight: 500;
   font-size: 1.4rem;
   letter-spacing: 0.013rem;
-  color: #009a93;
+  color: #ffde46;
 }
 
 hr {
@@ -104,6 +110,17 @@ hr {
   font-size: 0.8rem;
   :hover {
     color: #fffb12;
+  }
+}
+.img--empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 100%;
+    max-width: 240px;
   }
 }
 </style>
