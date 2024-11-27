@@ -2,10 +2,10 @@
 import { onMounted, ref } from 'vue'
 import { supabase } from '@/supabase'
 
-import FiscalesData from '@/components/FiscalesData.vue'
 import { useContribuyenteStore } from '@/stores/contribuyente'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
+import SectionFiscal from '@/components/form/SectionFiscal.vue'
 
 const router = useRouter()
 
@@ -103,7 +103,8 @@ function cancelEdit() {
       <p>Ingresa los datos del nuevo contribuyente</p>
     </header>
     <form @submit.prevent="submitForm">
-      <FiscalesData />
+      <SectionFiscal></SectionFiscal>
+      <!-- Información de acceso -->
       <section>
         <header>
           <h3>Información de acceso</h3>
@@ -123,6 +124,7 @@ function cancelEdit() {
           </label>
         </div>
       </section>
+      <!-- Información personal -->
       <section>
         <template v-if="tipo === 1">
           <header>
@@ -153,6 +155,7 @@ function cancelEdit() {
           </label>
         </template>
       </section>
+      <!-- Información de contacto -->
       <section>
         <header>
           <h3>Información de contacto</h3>
