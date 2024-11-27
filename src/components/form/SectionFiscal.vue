@@ -39,7 +39,7 @@ function handleShowRegimenesList() {
     <section>
       <p>
         <label>
-          Tipo de contribuyente:
+          <span class="color--primary">Tipo de contribuyente:</span>
           <select class="m-t-xs" v-model="tipo" required>
             <option
               v-for="tipoContribuyente in LISTA_TIPO_DE_CONTRIBUYENTE"
@@ -54,7 +54,7 @@ function handleShowRegimenesList() {
     </section>
     <section>
       <button class="btn--chevron space--between" type="button" @click="handleShowRegimenesList">
-        <p>Regímenes fiscales</p>
+        <p class="color--primary">Regímenes fiscales</p>
         <IconChevronUp v-if="showRegimenesList" />
         <IconChevronDown v-else />
       </button>
@@ -84,6 +84,9 @@ function handleShowRegimenesList() {
 </template>
 
 <style scoped>
+.color--primary {
+  color: #00bfba;
+}
 .btn--chevron {
   margin-top: 0.6rem;
   background-color: transparent;

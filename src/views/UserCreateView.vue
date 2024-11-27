@@ -206,7 +206,7 @@ section {
 
 label {
   display: block;
-  color: #d1d5db;
+  color: #00bfba;
   & input {
     margin-top: 0.2rem;
   }
