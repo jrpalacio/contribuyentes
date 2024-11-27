@@ -4,3 +4,22 @@
   /* usar el alto de la pantalla del dispositivo */
   height: 100dvh;
 }
+
+.m-t-xs {
+  margin-top: 0.2rem;
+}
+.m-t-sm {
+  margin-top: 0.4rem;
+}
+.m-t {
+  margin-top: 0.8rem;
+}
+.m-t-md {
+  margin-top: 1.6rem;
+}
+.m-t-lg {
+  margin-top: 2rem;
+}
+.m-t-xl {
+  margin-top: 2.5rem;
+}
