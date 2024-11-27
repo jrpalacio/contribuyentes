@@ -62,7 +62,7 @@ function handleShowRegimenesList() {
       <section class="content--regimenes m-t-xs" v-if="showRegimenesList">
         <p v-for="item in regimenesFiscales" :key="item.id">
           <label class="element--regimen">
-            <input type="checkbox" :value="item.id" v-model="regimenes" required />
+            <input type="checkbox" :value="item.id" v-model="regimenes" />
             {{ item.id }} - {{ item.descripcion }}
           </label>
         </p>
