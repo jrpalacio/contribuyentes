@@ -1,6 +1,8 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import IconChevronr from '@/icons/IconChevronr.vue'
+import IconUser from './icons/IconUser.vue'
+import IconTie from '@/icons/IconTie.vue'
 
 defineProps({
   id: {
@@ -12,7 +14,7 @@ defineProps({
     required: true
   },
   tipo: {
-    type: String,
+    type: Number,
     required: true
   },
   descripcion: {
@@ -29,20 +31,20 @@ function goToPage(id) {
 
 <template>
   <li>
-    <article class="contribuyente-card">
-      <section>
-        <h3 class="card__titulo">{{ titulo }}</h3>
-        <p class="card__descripcion">
-          <small class="card__tipo">
-            <strong>
-              {{ tipo }}
-            </strong>
-          </small>
-          | {{ descripcion }}
-        </p>
+    <article class="contribuyente-card space--between">
+      <section class="flex">
+        <div class="icon-type" v-if="tipo === 1">
+          <IconUser />
+        </div>
+        <div class="icon-type" v-else>
+          <IconTie />
+        </div>
+        <div>
+          <h3 class="card__titulo">{{ titulo }}</h3>
+          <p class="card__descripcion">{{ descripcion }}</p>
+        </div>
       </section>
       <section>
-        <hr class="hr" />
         <div class="space--between">
           <div class="card__botones">
             <slot name="action-buttons"></slot>
@@ -55,15 +57,23 @@ function goToPage(id) {
 </template>
 
 <style scoped>
+.flex {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
 .space--between {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .contribuyente-card {
-  background-color: #121212;
-  padding: 0.8rem 1rem;
-  border-radius: 1.6rem;
+  padding: 0.6rem 0.4rem;
+  border-radius: 0.2rem;
+
+  &:hover {
+    background-color: #1c1c1c;
+  }
 }
 
 .btn--rounded {
@@ -83,15 +93,16 @@ function goToPage(id) {
 }
 .card__titulo {
   font-weight: 500;
-  font-size: 1.1rem;
-  letter-spacing: 0.013rem;
+  font-size: 1.2rem;
+  letter-spacing: 0.016rem;
+  color: #f5f9ff;
 }
 .card__tipo {
   font-style: italic;
-  color: #7a7a7a;
+  color: #d3fbd8;
 }
 .card__descripcion {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #009a93;
   display: inline-block;
   overflow: hidden;
@@ -99,18 +110,20 @@ function goToPage(id) {
   text-overflow: ellipsis;
   width: 100%;
 }
-.hr {
-  margin: 0.5rem 0;
-  padding: 0;
-  border: 0;
-  height: 1px;
-  background-color: #2d323a;
-  width: 100%;
-}
+
 .card__botones {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 0.8rem;
+}
+.icon-type {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.3rem;
+  height: 1.3rem;
+  color: white;
+  object-fit: contain;
 }
 </style>
