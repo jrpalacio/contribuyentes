@@ -1,10 +1,11 @@
 <script setup>
 import UserList from '@/components/UserList.vue'
-
 import { supabase } from '@/supabase'
-import { watchEffect } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import { useContribuyentesStore } from '@/stores/contribuyentes'
 import { storeToRefs } from 'pinia'
+import VSearch from '@/components/VSearch.vue'
+import ComPagination from '@/components/ComPagination.vue'
 
 const contribuyentesStore = useContribuyentesStore()
 const { contribuyentes } = storeToRefs(contribuyentesStore)
@@ -21,10 +22,36 @@ watchEffect(async () => {
     console.error('Error al obtener los usuarios: ', error)
   }
 })
+
+const searchQuery = ref('')
+const currentPage = ref(1)
+const itemsPerPage = ref(2)
+
+const filteredContribuyentes = computed(() => {
+  if (!searchQuery.value) {
+    return contribuyentes.value
+  }
+  return contribuyentes.value.filter((contribuyente) =>
+    contribuyente.contribuyente.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+})
+
+const paginatedContribuyentes = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage.value
+  const end = start + itemsPerPage.value
+  return filteredContribuyentes.value.slice(start, end)
+})
 </script>
 
 <template>
-  <UserList :users="contribuyentes"> </UserList>
+  <VSearch v-model:search="searchQuery" />
+  <UserList :users="paginatedContribuyentes"> </UserList>
+  <ComPagination
+    :data="filteredContribuyentes"
+    :itemsPerPage="itemsPerPage"
+    v-model:modelValue="currentPage"
+  >
+  </ComPagination>
 </template>
 
 <style scoped>
