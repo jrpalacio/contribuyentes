@@ -2,7 +2,6 @@
 import VToaster from './VToaster.vue'
 
 import { useToasterStore } from '@/stores/toaster'
-import { TIPO_CONTRIBUYENTE } from '@/constants/SAT'
 import { useContribuyenteStore } from '@/stores/contribuyente'
 
 import ContribuyenteCard from './ContribuyenteCard.vue'
@@ -37,7 +36,7 @@ const copyToClipboard = ({ text, msg }) => {
       <h2>Mis contribuyentes</h2>
       <slot name="button"></slot>
     </header>
-    <hr />
+
     <template v-if="users.length === 0">
       <article>
         <figure class="img--empty">
@@ -47,31 +46,31 @@ const copyToClipboard = ({ text, msg }) => {
       </article>
     </template>
     <template v-else>
-      <article>
+      <article class="m-t-sm">
         <ul class="card-list">
-          <ContribuyenteCard
-            v-for="user in users"
-            :key="user.id"
-            :id="user.id"
-            :titulo="user.contribuyente"
-            :tipo="TIPO_CONTRIBUYENTE[user.tipo]"
-            :descripcion="regimenNumberStringToText({ numbreString: user.regimenes[0] })"
-          >
-            <template #action-buttons>
-              <button
-                class="btn--copiar"
-                @click="copyToClipboard({ text: user.rfc, msg: 'RFC copiado' })"
-              >
-                <span># RFC</span>
-              </button>
-              <button
-                class="btn--copiar"
-                @click="copyToClipboard({ text: user.clave, msg: 'Clave copiada' })"
-              >
-                <span># Contraseña</span>
-              </button>
-            </template>
-          </ContribuyenteCard>
+          <template v-for="user in users" :key="user.id">
+            <ContribuyenteCard
+              :id="user.id"
+              :titulo="user.contribuyente"
+              :tipo="user.tipo"
+              :descripcion="regimenNumberStringToText({ numbreString: user.regimenes[0] })"
+            >
+              <template #action-buttons>
+                <button
+                  class="btn--copiar"
+                  @click="copyToClipboard({ text: user.rfc, msg: 'RFC copiado' })"
+                >
+                  <span># RFC</span>
+                </button>
+                <button
+                  class="btn--copiar"
+                  @click="copyToClipboard({ text: user.clave, msg: 'Clave copiada' })"
+                >
+                  <span># Contraseña</span>
+                </button>
+              </template>
+            </ContribuyenteCard>
+          </template>
         </ul>
       </article>
     </template>
@@ -80,26 +79,21 @@ const copyToClipboard = ({ text, msg }) => {
 </template>
 
 <style scoped>
+/* .content--list {
+  width: 800px;
+  max-width: calc(100% - 0.8rem);
+  margin: 0 auto;
+} */
 .card-list {
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+
+  margin-bottom: 2rem;
 }
 
 h2 {
   font-weight: 500;
-  font-size: 1.4rem;
-  letter-spacing: 0.013rem;
-  color: #ffde46;
-}
-
-hr {
-  margin: 0.5rem 0;
-  padding: 0;
-  border: 0;
-  height: 1px;
-  background-color: #2d323a;
-  width: 100%;
+  color: #fff;
 }
 
 .btn--copiar {
