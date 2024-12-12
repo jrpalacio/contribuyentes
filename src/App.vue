@@ -1,9 +1,9 @@
 <script setup>
-import NavBar from './components/NavBar.vue'
 import { RouterView, useRouter } from 'vue-router'
-
 import { ref, onMounted } from 'vue'
-import NavSession from './components/NavSession.vue'
+
+import NavigationBar from './components/bars/NavigationBar.vue'
+import SessionBar from './components/bars/SessionBar.vue'
 import { supabase } from './supabase'
 
 const router = useRouter()
@@ -24,8 +24,8 @@ onMounted(() => {
 <template>
   <template v-if="isAuthenticated">
     <div class="container">
-      <NavSession />
-      <NavBar />
+      <SessionBar />
+      <NavigationBar />
       <main class="main">
         <router-view v-slot="{ Component }">
           <transition name="fade">
@@ -68,13 +68,15 @@ onMounted(() => {
 
 .main {
   grid-area: main;
-  padding: 0.4rem 0.4rem 1rem;
+  padding: 1rem 8rem;
   overflow-y: auto;
 }
 
 @media (width<= 1024px) {
   .main {
     height: calc(100vh - 114px);
+    border: 2px solid red;
+    padding: 0 1.75rem;
   }
 }
 
