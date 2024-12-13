@@ -18,3 +18,15 @@ defineProps({
     <IconTie />
   </div>
 </template>
+
+<style scoped>
+.icon-type {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.3rem;
+  height: 1.3rem;
+  color: white;
+  object-fit: contain;
+}
+</style>
