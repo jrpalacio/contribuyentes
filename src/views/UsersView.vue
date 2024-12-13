@@ -25,7 +25,7 @@ watchEffect(async () => {
 
 const searchQuery = ref('')
 const currentPage = ref(1)
-const itemsPerPage = ref(4)
+const itemsPerPage = ref(5)
 
 const filteredContribuyentes = computed(() => {
   if (!searchQuery.value) {
