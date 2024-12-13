@@ -62,7 +62,7 @@ function goToPage(id) {
   justify-content: space-between;
 }
 .contribuyente-card {
-  padding: 0.6rem 0.4rem;
+  padding: 0.8rem 0.4rem;
   border-radius: 0.2rem;
 
   &:hover {
@@ -114,29 +114,21 @@ function goToPage(id) {
   flex-wrap: wrap;
   gap: 0.8rem;
 }
-.icon-type {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.3rem;
-  height: 1.3rem;
-  color: white;
-  object-fit: contain;
-}
 
 .card-text {
-  width: 180px;
+  width: 240px;
+  display: flex;
+  flex-direction: column;
 }
 
 @media (width <= 1024px) {
   .card__botones {
     display: none;
-    border: 1px solid red;
   }
 }
 @media (width >= 1024px) {
   .card-text {
-    width: 480px;
+    width: 600px;
   }
 }
 </style>
