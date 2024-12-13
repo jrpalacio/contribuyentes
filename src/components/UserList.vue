@@ -79,6 +79,7 @@ const copyToClipboard = ({ text, msg }) => {
   flex-direction: column;
 
   margin-bottom: 2rem;
+  height: 356.953px;
 }
 
 .btn--copiar {
