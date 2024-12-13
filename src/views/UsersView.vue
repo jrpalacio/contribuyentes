@@ -6,6 +6,7 @@ import { useContribuyentesStore } from '@/stores/contribuyentes'
 import { storeToRefs } from 'pinia'
 import VSearch from '@/components/VSearch.vue'
 import ComPagination from '@/components/ComPagination.vue'
+import IconSearh from '@/icons/IconSearh.vue'
 
 const contribuyentesStore = useContribuyentesStore()
 const { contribuyentes } = storeToRefs(contribuyentesStore)
@@ -44,16 +45,26 @@ const paginatedContribuyentes = computed(() => {
 </script>
 
 <template>
-  <ComPagination
-    :data="filteredContribuyentes"
-    :itemsPerPage="itemsPerPage"
-    v-model:modelValue="currentPage"
-  />
-  <VSearch v-model:search="searchQuery" />
+  <!--  <VSearch v-model:search="searchQuery" /> -->
+  <div class="space--between">
+    <IconSearh />
+    <ComPagination
+      :data="filteredContribuyentes"
+      :itemsPerPage="itemsPerPage"
+      v-model:modelValue="currentPage"
+    />
+  </div>
+
   <UserList :users="paginatedContribuyentes"> </UserList>
 </template>
 
 <style scoped>
+.space--between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
 .btn--add-user {
   border: 0;
   background-color: transparent;
