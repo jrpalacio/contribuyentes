@@ -47,15 +47,15 @@ const paginatedContribuyentes = computed(() => {
 <template>
   <!--  <VSearch v-model:search="searchQuery" /> -->
   <div class="space--between">
-    <IconSearh />
-    <ComPagination
-      :data="filteredContribuyentes"
-      :itemsPerPage="itemsPerPage"
-      v-model:modelValue="currentPage"
-    />
+    <div><IconSearh /> Buscar</div>
   </div>
 
   <UserList :users="paginatedContribuyentes"> </UserList>
+  <ComPagination
+    :data="filteredContribuyentes"
+    :itemsPerPage="itemsPerPage"
+    v-model:modelValue="currentPage"
+  />
 </template>
 
 <style scoped>
