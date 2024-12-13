@@ -75,8 +75,7 @@ onMounted(() => {
 @media (width<= 1024px) {
   .main {
     height: calc(100vh - 114px);
-    border: 2px solid red;
-    padding: 0 1.75rem;
+    padding: 0 0.75rem;
   }
 }
 
