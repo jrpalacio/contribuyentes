@@ -25,7 +25,7 @@ watchEffect(async () => {
 
 const searchQuery = ref('')
 const currentPage = ref(1)
-const itemsPerPage = ref(2)
+const itemsPerPage = ref(4)
 
 const filteredContribuyentes = computed(() => {
   if (!searchQuery.value) {
@@ -44,14 +44,13 @@ const paginatedContribuyentes = computed(() => {
 </script>
 
 <template>
-  <VSearch v-model:search="searchQuery" />
-  <UserList :users="paginatedContribuyentes"> </UserList>
   <ComPagination
     :data="filteredContribuyentes"
     :itemsPerPage="itemsPerPage"
     v-model:modelValue="currentPage"
-  >
-  </ComPagination>
+  />
+  <VSearch v-model:search="searchQuery" />
+  <UserList :users="paginatedContribuyentes"> </UserList>
 </template>
 
 <style scoped>

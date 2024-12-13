@@ -12,7 +12,7 @@ const search = defineModel('search', { required: true })
 
 <style scoped>
 section {
-  margin: 1rem 0;
+  margin: 0.6rem 0;
 }
 
 label {

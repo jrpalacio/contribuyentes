@@ -1,8 +1,7 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import IconChevronr from '@/icons/IconChevronr.vue'
-import IconUser from './icons/IconUser.vue'
-import IconTie from '@/icons/IconTie.vue'
+import ComIconUser from '@/components/ContribuyenteCard/ComIconUser.vue'
 
 defineProps({
   id: {
@@ -33,15 +32,10 @@ function goToPage(id) {
   <li>
     <article class="contribuyente-card space--between">
       <section class="flex">
-        <div class="icon-type" v-if="tipo === 1">
-          <IconUser />
-        </div>
-        <div class="icon-type" v-else>
-          <IconTie />
-        </div>
-        <div>
-          <h3 class="card__titulo">{{ titulo }}</h3>
-          <p class="card__descripcion">{{ descripcion }}</p>
+        <ComIconUser :tipo="tipo" />
+        <div class="card-text">
+          <h3 class="card__titulo ellipsis-text">{{ titulo }}</h3>
+          <p class="card__descripcion ellipsis-text">{{ descripcion }}</p>
         </div>
       </section>
       <section>
@@ -104,6 +98,9 @@ function goToPage(id) {
 .card__descripcion {
   font-size: 0.95rem;
   color: #009a93;
+}
+
+.ellipsis-text {
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
@@ -125,5 +122,21 @@ function goToPage(id) {
   height: 1.3rem;
   color: white;
   object-fit: contain;
+}
+
+.card-text {
+  width: 180px;
+}
+
+@media (width <= 1024px) {
+  .card__botones {
+    display: none;
+    border: 1px solid red;
+  }
+}
+@media (width >= 1024px) {
+  .card-text {
+    width: 480px;
+  }
 }
 </style>

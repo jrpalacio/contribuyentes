@@ -32,11 +32,6 @@ const copyToClipboard = ({ text, msg }) => {
 
 <template>
   <div>
-    <header class="list--header">
-      <h2>Mis contribuyentes</h2>
-      <slot name="button"></slot>
-    </header>
-
     <template v-if="users.length === 0">
       <article>
         <figure class="img--empty">
@@ -79,21 +74,11 @@ const copyToClipboard = ({ text, msg }) => {
 </template>
 
 <style scoped>
-/* .content--list {
-  width: 800px;
-  max-width: calc(100% - 0.8rem);
-  margin: 0 auto;
-} */
 .card-list {
   display: flex;
   flex-direction: column;
 
   margin-bottom: 2rem;
-}
-
-h2 {
-  font-weight: 500;
-  color: #fff;
 }
 
 .btn--copiar {

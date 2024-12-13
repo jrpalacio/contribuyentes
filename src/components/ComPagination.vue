@@ -1,12 +1,16 @@
 <template>
   <div class="pagination">
-    <button @click="prevPage" :disabled="currentPage === 1">Previous</button>
-    <span>Page {{ currentPage }} of {{ totalPages }}</span>
-    <button @click="nextPage" :disabled="currentPage === totalPages">Next</button>
+    <button @click="prevPage" :disabled="currentPage === 1">
+      <IconChevronl />
+    </button>
+    <span>Página {{ currentPage }} de {{ totalPages }}</span>
+    <button @click="nextPage" :disabled="currentPage === totalPages"><IconChevronr /></button>
   </div>
 </template>
 
 <script setup>
+import IconChevronl from '@/icons/IconChevronl.vue'
+import IconChevronr from '@/icons/IconChevronr.vue'
 import { computed, toRefs } from 'vue'
 
 const props = defineProps({
@@ -51,7 +55,7 @@ const nextPage = () => {
 <style scoped>
 .pagination {
   display: flex;
-  justify-content: center;
+  justify-content: end;
   align-items: center;
   gap: 1rem;
 }
@@ -59,5 +63,10 @@ const nextPage = () => {
 button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+button {
+  background-color: transparent;
+  border: none;
 }
 </style>
